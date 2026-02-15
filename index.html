@@ -207,20 +207,30 @@ function majGraph(){
 
 function updateObjectifs(){
 
-    const total = getEpargneTotale();
+    let total = getEpargneTotale();
 
-    const objectif1 = 6000;
-    const objectif2 = 1500;
-    const objectif3 = 3000;
+    const objectif1 = 6000;  // Sécurité
+    const objectif2 = 1500;  // Vacances
+    const objectif3 = 3000;  // Projet
 
+    // ---- Sécurité ----
+    const securiteRempli = Math.min(total, objectif1);
     document.getElementById("bar1").style.width =
-        Math.min((total / objectif1) * 100, 100) + "%";
+        (securiteRempli / objectif1) * 100 + "%";
 
+    total -= securiteRempli;
+
+    // ---- Vacances ----
+    const vacancesRempli = Math.min(total, objectif2);
     document.getElementById("bar2").style.width =
-        Math.min((total / objectif2) * 100, 100) + "%";
+        (vacancesRempli / objectif2) * 100 + "%";
 
+    total -= vacancesRempli;
+
+    // ---- Projet ----
+    const projetRempli = Math.min(total, objectif3);
     document.getElementById("bar3").style.width =
-        Math.min((total / objectif3) * 100, 100) + "%";
+        (projetRempli / objectif3) * 100 + "%";
 }
 window.onload = function(){
     initChart();
