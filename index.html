@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mon Budget</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+body {font-family:-apple-system;background:#0f172a;color:white;padding:20px;}
+.card {background:#1e293b;padding:15px;border-radius:16px;margin-bottom:20px;}
+input {width:100%;padding:8px;margin:5px 0;border-radius:8px;border:none;}
+button {padding:10px;border:none;border-radius:8px;background:#22c55e;color:white;}
+table {width:100%;margin-top:10px;border-collapse:collapse;}
+th,td {padding:6px;text-align:center;}
+.progress {background:#334155;border-radius:20px;height:15px;}
+.progress-bar {height:100%;background:#22c55e;width:0%;}
+</style>
+</head>
+<body>
+
+<h1>💰 Mon Budget</h1>
+
+<div class="card">
+<h3>Budget</h3>
+Revenus
+<input type="number" id="revenus" value="1971">
+
+Charges fixes
+<input type="number" id="charges" value="812">
+
+Courses
+<input type="number" id="courses" value="0">
+
+Essence
+<input type="number" id="essence" value="0">
+
+Loisirs
+<input type="number" id="loisirs" value="0">
+
+Divers
+<input type="number" id="divers" value="0">
+
+Épargne du mois
+<input type="number" id="epargneMois" value="300">
+
+<button onclick="update()">Mettre à jour</button>
+
+<h4 id="totalDepenses"></h4>
+<h4 id="reste"></h4>
+<h4 id="cumul"></h4>
+</div>
+
+<div class="card">
+<h3>📅 Historique</h3>
+<button onclick="ajouterMois()">Ajouter ce mois</button>
+
+<table id="historiqueTable">
+<thead>
+<tr>
+<th>Mois</th>
+<th>Dépenses</th>
+<th>Épargne</th>
+<th>❌</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+
+<canvas id="historyChart"></canvas>
+</div>
+
+<script>
+let historique = JSON.parse(localStorage.getItem("historique")) || [];
+let cumulTotal = 0;
+let historyChart;
+
+function initChart(){
+    const ctx = document.getElementById("historyChart").getContext("2d");
+    historyChart = new Chart(ctx,{
+        type:"line",
+        data:{
+            labels:[],
+            datasets:[
+                {label:"Dépenses",data:[],borderColor:"#ef4444"},
+                {label:"Épargne",data:[],borderColor:"#22c55e"}
+            ]
+        }
+    });
+}
+
+function update(){
+    const revenus = +revenus.value;
+    const depenses = +charges.value + +courses.value + +essence.value + +loisirs.value + +divers.value;
+    const epargne = +epargneMois.value;
+
+    cumulTotal += epargne;
+
+    totalDepenses.innerText = "Total Dépenses : " + depenses + " €";
+    reste.innerText = "Reste : " + (revenus - depenses - epargne) + " €";
+    cumul.innerText = "Épargne cumulée : " + cumulTotal + " €";
+}
+
+function ajouterMois(){
+    const date = new Date();
+    const mois = date.toLocaleString('fr-FR',{month:'short'}) + " " + date.getFullYear();
+
+    const depenses = +charges.value + +courses.value + +essence.value + +loisirs.value + +divers.value;
+    const epargne = +epargneMois.value;
+
+    historique.push({mois,depenses,epargne});
+    localStorage.setItem("historique",JSON.stringify(historique));
+
+    afficherHistorique();
+    majGraph();
+}
+
+function afficherHistorique(){
+    const tbody = document.querySelector("#historiqueTable tbody");
+    tbody.innerHTML="";
+    historique.forEach((m,i)=>{
+        tbody.innerHTML+=`
+        <tr>
+        <td>${m.mois}</td>
+        <td>${m.depenses}€</td>
+        <td>${m.epargne}€</td>
+        <td><button onclick="supprimer(${i})" style="background:#ef4444">X</button></td>
+        </tr>`;
+    });
+}
+
+function supprimer(i){
+    historique.splice(i,1);
+    localStorage.setItem("historique",JSON.stringify(historique));
+    afficherHistorique();
+    majGraph();
+}
+
+function majGraph(){
+    historyChart.data.labels = historique.map(m=>m.mois);
+    historyChart.data.datasets[0].data = historique.map(m=>m.depenses);
+    historyChart.data.datasets[1].data = historique.map(m=>m.epargne);
+    historyChart.update();
+}
+
+window.onload = function(){
+    initChart();
+    afficherHistorique();
+    majGraph();
+}
+</script>
+
+</body>
+</html>
