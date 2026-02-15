@@ -22,6 +22,7 @@ th,td {padding:6px;text-align:center;}
 
 <div class="card">
 <h3>Budget</h3>
+
 Revenus
 <input type="number" id="revenus" value="1971">
 
@@ -48,6 +49,27 @@ Divers
 <h4 id="totalDepenses"></h4>
 <h4 id="reste"></h4>
 <h4 id="cumul"></h4>
+
+</div>
+
+<div class="card">
+<h3>🎯 Objectifs</h3>
+
+<p>Fonds de sécurité (6000€)</p>
+<div class="progress">
+  <div id="bar1" class="progress-bar"></div>
+</div>
+
+<p>Vacances (1500€)</p>
+<div class="progress">
+  <div id="bar2" class="progress-bar"></div>
+</div>
+
+<p>Projet perso (3000€)</p>
+<div class="progress">
+  <div id="bar3" class="progress-bar"></div>
+</div>
+
 </div>
 
 <div class="card">
@@ -73,7 +95,6 @@ Divers
 <canvas id="historyChart" style="margin-top:20px;"></canvas>
 
 </div>
-
 <script>
 let historique = JSON.parse(localStorage.getItem("historique")) || [];
 let cumulTotal = 0;
@@ -161,7 +182,17 @@ function majGraph(){
     historyChart.data.datasets[1].data = historique.map(m=>m.epargne);
     historyChart.update();
 
-    updateObjectifs(); // ← AJOUT ICI
+function updateObjectifs(){
+
+    const totalEpargne = getEpargneTotale();
+
+    const objectifSecurite = 6000;
+    const objectifVacances = 1500;
+    const objectifProjet = 3000;
+
+    updateBar(totalEpargne, objectifSecurite, "bar1");
+    updateBar(totalEpargne, objectifVacances, "bar2");
+    updateBar(totalEpargne, objectifProjet, "bar3");// ← AJOUT ICI
 }
 
 window.onload = function(){
