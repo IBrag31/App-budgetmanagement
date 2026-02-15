@@ -52,6 +52,10 @@ Divers
 
 <div class="card">
 <h3>📅 Historique</h3>
+
+<label>Choisir un mois</label>
+<input type="month" id="moisSelect">
+
 <button onclick="ajouterMois()">Ajouter ce mois</button>
 
 <table id="historiqueTable">
@@ -66,7 +70,8 @@ Divers
 <tbody></tbody>
 </table>
 
-<canvas id="historyChart"></canvas>
+<canvas id="historyChart" style="margin-top:20px;"></canvas>
+
 </div>
 
 <script>
@@ -101,14 +106,27 @@ function update(){
 }
 
 function ajouterMois(){
-    const date = new Date();
-    const mois = date.toLocaleString('fr-FR',{month:'short'}) + " " + date.getFullYear();
 
-    const depenses = +charges.value + +courses.value + +essence.value + +loisirs.value + +divers.value;
+    const moisInput = document.getElementById("moisSelect").value;
+
+    if(!moisInput){
+        alert("Choisis un mois avant d’ajouter.");
+        return;
+    }
+
+    const [annee, mois] = moisInput.split("-");
+    const moisFinal = mois + "/" + annee;
+
+    const depenses = +charges.value 
+                   + +courses.value 
+                   + +essence.value 
+                   + +loisirs.value 
+                   + +divers.value;
+
     const epargne = +epargneMois.value;
 
-    historique.push({mois,depenses,epargne});
-    localStorage.setItem("historique",JSON.stringify(historique));
+    historique.push({mois: moisFinal, depenses, epargne});
+    localStorage.setItem("historique", JSON.stringify(historique));
 
     afficherHistorique();
     majGraph();
