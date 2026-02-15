@@ -133,17 +133,17 @@ function ajouterMois(){
     if(!moisInput){
         alert("Choisis un mois avant d’ajouter.");
         return;
-      sauvegardeAuto();
     }
 
     const [annee, mois] = moisInput.split("-");
     const moisFinal = mois + "/" + annee;
 
-    const depenses = +charges.value 
-                   + +courses.value 
-                   + +essence.value 
-                   + +loisirs.value 
-                   + +divers.value;
+    const depenses =
+        +charges.value +
+        +courses.value +
+        +essence.value +
+        +loisirs.value +
+        +divers.value;
 
     const epargne = +epargneMois.value;
 
@@ -152,6 +152,8 @@ function ajouterMois(){
 
     afficherHistorique();
     majGraph();
+
+    sauvegardeAuto();
 }
 function getEpargneTotale(){
     return historique.reduce((total, mois) => total + mois.epargne, 0);
@@ -177,23 +179,28 @@ function supprimer(i){
     majGraph();
   sauvegardeAuto();
 }
-function getEpargneTotale(){
-    return historique.reduce((total, mois) => total + mois.epargne, 0);
-}
-
 function sauvegardeAuto(){
 
     const data = {
         historique: historique
     };
 
-    const blob = new Blob([JSON.stringify(data)], {type:"application/json"});
+    const blob = new Blob(
+        [JSON.stringify(data, null, 2)],
+        { type: "application/json" }
+    );
+
     const url = URL.createObjectURL(blob);
 
     const a = document.createElement("a");
     a.href = url;
     a.download = "sauvegarde_budget_auto.json";
+
+    document.body.appendChild(a); // nécessaire pour Safari
     a.click();
+    document.body.removeChild(a);
+
+    URL.revokeObjectURL(url); // nettoyage
 }
   console.log("Objectifs mis à jour");
 function updateObjectifs(){
