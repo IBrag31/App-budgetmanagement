@@ -131,7 +131,9 @@ function ajouterMois(){
     afficherHistorique();
     majGraph();
 }
-
+function getEpargneTotale(){
+    return historique.reduce((total, mois) => total + mois.epargne, 0);
+}
 function afficherHistorique(){
     const tbody = document.querySelector("#historiqueTable tbody");
     tbody.innerHTML="";
@@ -145,7 +147,7 @@ function afficherHistorique(){
         </tr>`;
     });
 }
-
+        
 function supprimer(i){
     historique.splice(i,1);
     localStorage.setItem("historique",JSON.stringify(historique));
@@ -158,6 +160,8 @@ function majGraph(){
     historyChart.data.datasets[0].data = historique.map(m=>m.depenses);
     historyChart.data.datasets[1].data = historique.map(m=>m.epargne);
     historyChart.update();
+
+    updateObjectifs(); // ← AJOUT ICI
 }
 
 window.onload = function(){
