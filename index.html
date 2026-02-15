@@ -178,6 +178,7 @@ function supprimer(i){
 function getEpargneTotale(){
     return historique.reduce((total, mois) => total + mois.epargne, 0);
 }
+  console.log("Objectifs mis à jour");
 function updateObjectifs(){
 
     const total = getEpargneTotale();
