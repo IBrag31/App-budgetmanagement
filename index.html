@@ -74,6 +74,7 @@ Divers
 
 <div class="card">
 <h3>📅 Historique</h3>
+  <button onclick="sauvegardeAuto()">Sauvegarder sur iCloud</button>
 
 <label>Choisir un mois</label>
 <input type="month" id="moisSelect">
@@ -194,13 +195,12 @@ function sauvegardeAuto(){
 
     const a = document.createElement("a");
     a.href = url;
-    a.download = "sauvegarde_budget_auto.json";
-
-    document.body.appendChild(a); // nécessaire pour Safari
+    a.download = "sauvegarde_budget.json";
+    document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
 
-    URL.revokeObjectURL(url); // nettoyage
+    URL.revokeObjectURL(url);
 }
   console.log("Objectifs mis à jour");
 function updateObjectifs(){
