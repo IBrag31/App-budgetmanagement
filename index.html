@@ -64,28 +64,24 @@ button,
     box-shadow:0 4px 12px rgba(0,0,0,0.3);
 }
 
+/* Bouton principal */
 button{
-    background:linear-gradient(145deg,#22c55e,#16a34a);
-    color:white;
-}
-
-.restore-btn{
     background:linear-gradient(145deg,#3b82f6,#2563eb);
     color:white;
 }
 
+/* Bouton secondaire */
+.restore-btn{
+    background:rgba(255,255,255,0.08);
+    color:white;
+    border:1px solid rgba(255,255,255,0.12);
+}
+
+/* Effet pression */
 button:active,
 .restore-btn:active{
     transform:scale(0.96);
     box-shadow:0 2px 6px rgba(0,0,0,0.4);
-}
-button:active{
-    transform:scale(0.96);
-    box-shadow:0 2px 6px rgba(0,0,0,0.4);
-}
-
-button:active{
-    transform:scale(0.97);
 }
 
 table{
