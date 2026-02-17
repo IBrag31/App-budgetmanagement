@@ -6,14 +6,87 @@
 <title>Mon Budget</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
-body {font-family:-apple-system;background:#0f172a;color:white;padding:20px;}
-.card {background:#1e293b;padding:15px;border-radius:16px;margin-bottom:20px;}
-input {width:100%;padding:8px;margin:5px 0;border-radius:8px;border:none;}
-button {padding:10px;border:none;border-radius:8px;background:#22c55e;color:white;}
-table {width:100%;margin-top:10px;border-collapse:collapse;}
-th,td {padding:6px;text-align:center;}
-.progress {background:#334155;border-radius:20px;height:15px;}
-.progress-bar {height:100%;background:#22c55e;width:0%;}
+body{
+    font-family:-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+    background:#0f172a;
+    color:white;
+    margin:0;
+    padding:20px;
+}
+
+h1{
+    text-align:center;
+    font-weight:600;
+    margin-bottom:25px;
+}
+
+.card{
+    background:rgba(255,255,255,0.05);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius:20px;
+    padding:18px;
+    margin-bottom:20px;
+    box-shadow:0 8px 24px rgba(0,0,0,0.3);
+}
+
+input{
+    width:100%;
+    padding:12px;
+    margin:8px 0;
+    border-radius:14px;
+    border:none;
+    font-size:16px;
+    background:#1e293b;
+    color:white;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+    border:none;
+    border-radius:16px;
+    font-size:16px;
+    font-weight:600;
+    background:#22c55e;
+    color:white;
+    transition:0.2s;
+}
+
+button:active{
+    transform:scale(0.97);
+}
+
+table{
+    width:100%;
+    margin-top:15px;
+    border-collapse:collapse;
+}
+
+th{
+    opacity:0.6;
+    font-weight:500;
+}
+
+td{
+    padding:8px 0;
+}
+
+.progress{
+    background:#334155;
+    border-radius:20px;
+    height:14px;
+    margin-top:6px;
+    overflow:hidden;
+}
+
+.progress-bar{
+    height:100%;
+    background:linear-gradient(90deg,#22c55e,#16a34a);
+    width:0%;
+    transition:width 0.5s ease;
+}
 </style>
 </head>
 <body>
