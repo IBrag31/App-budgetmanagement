@@ -75,7 +75,11 @@ Divers
 <div class="card">
 <h3>📅 Historique</h3>
   <button onclick="sauvegardeAuto()">Sauvegarder sur iCloud</button>
+ <button onclick="restaurerDepuisIcloud()">
+  📥 Restaurer depuis iCloud
+</button>
 
+<input type="file" id="fileInput" accept=".json" style="display:none">
 <label>Choisir un mois</label>
 <input type="month" id="moisSelect">
 
@@ -202,33 +206,37 @@ function sauvegardeAuto(){
 
     URL.revokeObjectURL(url);
 }
-  console.log("Objectifs mis à jour");
-function updateObjectifs(){
-
-    const total = getEpargneTotale();
-
-    const objectif1 = 6000;
-    const objectif2 = 1500;
-    const objectif3 = 3000;
-
-    document.getElementById("bar1").style.width =
-        Math.min((total / objectif1) * 100, 100) + "%";
-
-    document.getElementById("bar2").style.width =
-        Math.min((total / objectif2) * 100, 100) + "%";
-
-    document.getElementById("bar3").style.width =
-        Math.min((total / objectif3) * 100, 100) + "%";
-}  
-function majGraph(){
-    historyChart.data.labels = historique.map(m=>m.mois);
-    historyChart.data.datasets[0].data = historique.map(m=>m.depenses);
-    historyChart.data.datasets[1].data = historique.map(m=>m.epargne);
-    historyChart.update();
-
-    updateObjectifs();
+  function restaurerDepuisIcloud(){
+    document.getElementById("fileInput").click();
 }
+  document.getElementById("fileInput").addEventListener("change", function(e){
 
+    const file = e.target.files[0];
+    if(!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function(event){
+
+        try{
+            const data = JSON.parse(event.target.result);
+
+            historique = data.historique || [];
+            localStorage.setItem("historique", JSON.stringify(historique));
+
+            afficherHistorique();
+            majGraph();
+
+            alert("Données restaurées avec succès ✅");
+
+        } catch(error){
+            alert("Fichier invalide ❌");
+        }
+    };
+
+    reader.readAsText(file);
+});
+  
 function updateObjectifs(){
 
     let total = getEpargneTotale();
