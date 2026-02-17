@@ -197,7 +197,7 @@ function sauvegardeAuto(){
     a.click();
     document.body.removeChild(a);
 }
-  function handleImport(e){
+ function handleImport(e){
 
     const file = e.target.files[0];
 
@@ -206,11 +206,30 @@ function sauvegardeAuto(){
         return;
     }
 
-    alert("Taille du fichier : " + file.size + " bytes");
-}
+    const reader = new FileReader();
 
-  function restaurerDepuisIcloud(){
-    document.getElementById("fileInput").click();
+    reader.onload = function(event){
+
+        let data;
+
+        try{
+            data = JSON.parse(event.target.result);
+        } catch(error){
+            alert("Fichier invalide ❌");
+            return;
+        }
+
+        historique = data.historique || [];
+
+        localStorage.setItem("historique", JSON.stringify(historique));
+
+        afficherHistorique();
+        majGraph();
+
+        alert("Données restaurées avec succès ✅");
+    };
+
+    reader.readAsText(file, "UTF-8");
 }
   
 function updateObjectifs(){
