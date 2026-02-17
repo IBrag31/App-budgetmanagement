@@ -163,21 +163,12 @@ body{
 </style>
 </head>
 <body>
-    <div class="tabbar">
-  <div class="tab active" onclick="showSection('budget', this)">
-    💰<span>Budget</span>
-  </div>
-  <div class="tab" onclick="showSection('objectifs', this)">
-    🎯<span>Objectifs</span>
-  </div>
-  <div class="tab" onclick="showSection('historique', this)">
-    📅<span>Historique</span>
-  </div>
-</div>
-    <div style="max-width:500px;margin:auto;">
+
+<div style="max-width:500px;margin:auto;">
 
 <h1>💰 Mon Budget</h1>
 
+<!-- 💰 SECTION BUDGET -->
 <div class="card section" id="section-budget">
 <h3>Budget</h3>
 
@@ -207,36 +198,30 @@ Divers
 <h4 id="totalDepenses"></h4>
 <h4 id="reste"></h4>
 <h4 id="cumul"></h4>
-
 </div>
 
+<!-- 🎯 SECTION OBJECTIFS -->
 <div class="card section" id="section-objectifs">
 <h3>🎯 Objectifs</h3>
 
 <p>Fonds de sécurité (6000€)</p>
-<div class="progress">
-  <div id="bar1" class="progress-bar"></div>
-</div>
+<div class="progress"><div id="bar1" class="progress-bar"></div></div>
 
 <p>Vacances (1500€)</p>
-<div class="progress">
-  <div id="bar2" class="progress-bar"></div>
-</div>
+<div class="progress"><div id="bar2" class="progress-bar"></div></div>
 
 <p>Projet perso (3000€)</p>
-<div class="progress">
-  <div id="bar3" class="progress-bar"></div>
+<div class="progress"><div id="bar3" class="progress-bar"></div></div>
 </div>
 
-</div>
-
+<!-- 📅 SECTION HISTORIQUE -->
 <div class="card section" id="section-historique">
 <h3>📅 Historique</h3>
 
 <button onclick="sauvegardeAuto()">💾 Sauvegarder sur iCloud</button>
 
 <button class="restore-btn" onclick="restaurerDepuisIcloud()">
-  📥 Restaurer depuis iCloud
+📥 Restaurer depuis iCloud
 </button>
 
 <input type="file"
@@ -263,9 +248,25 @@ Divers
 </table>
 
 <canvas id="historyChart"></canvas>
-
 </div>
-<script>
+
+</div> <!-- FIN CONTAINER -->
+
+<!-- 🧭 TABBAR EN BAS -->
+<div class="tabbar">
+  <div class="tab active" onclick="showSection('budget', this)">
+    💰<span>Budget</span>
+  </div>
+  <div class="tab" onclick="showSection('objectifs', this)">
+    🎯<span>Objectifs</span>
+  </div>
+  <div class="tab" onclick="showSection('historique', this)">
+    📅<span>Historique</span>
+  </div>
+  <div class="tab" onclick="showSection('sauvegarde', this)">
+    ⚙️<span>Sauvegarde</span>
+  </div>
+</div>
  
 let historique = JSON.parse(localStorage.getItem("historique")) || [];
 let cumulTotal = 0;
