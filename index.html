@@ -253,26 +253,28 @@ window.onload = function(){
 
         reader.onload = function(event){
 
-    let data;
+            let data;
 
-    try{
-        data = JSON.parse(event.target.result);
-    } catch(error){
-        alert("Fichier invalide ❌");
-        return;
-    }
+            try{
+                data = JSON.parse(event.target.result);
+            } catch(error){
+                alert("Fichier invalide ❌");
+                return;
+            }
 
-    // Si on arrive ici, le JSON est valide
-    historique = data.historique || [];
+            historique = data.historique || [];
 
-    localStorage.setItem("historique", JSON.stringify(historique));
+            localStorage.setItem("historique", JSON.stringify(historique));
 
-    afficherHistorique();
-    majGraph();
+            afficherHistorique();
+            majGraph();
 
-    alert("Données restaurées avec succès ✅");
+            alert("Données restaurées avec succès ✅");
+        };
+
+        reader.readAsText(file);
+    });
 };
 </script>
-
 </body>
 </html>
