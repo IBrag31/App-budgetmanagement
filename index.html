@@ -12,6 +12,7 @@ body{
     color:white;
     margin:0;
     padding:20px;
+    padding-bottom:90px; /* évite que la tabbar cache le contenu */
 }
 
 h1{
@@ -123,10 +124,6 @@ td{
     display:block;
 }
 
-body{
-    padding-bottom:90px; /* évite que la tabbar cache le contenu */
-}
-
 .tabbar{
     position:fixed;
     bottom:0;
@@ -218,18 +215,6 @@ Divers
 <div class="card section" id="section-historique">
 <h3>📅 Historique</h3>
 
-<button onclick="sauvegardeAuto()">💾 Sauvegarder sur iCloud</button>
-
-<button class="restore-btn" onclick="restaurerDepuisIcloud()">
-📥 Restaurer depuis iCloud
-</button>
-
-<input type="file"
-       id="fileInput"
-       accept=".json"
-       onchange="handleImport(event)"
-       style="display:none">
-
 <label>Choisir un mois</label>
 <input type="month" id="moisSelect">
 
@@ -249,8 +234,26 @@ Divers
 
 <canvas id="historyChart"></canvas>
 </div>
+<!-- ⚙️ SECTION SAUVEGARDE -->
+<div class="card section" id="section-sauvegarde">
+<h3>💾 Sauvegarde</h3>
 
-</div> <!-- FIN CONTAINER -->
+<button onclick="sauvegardeAuto()">
+💾 Sauvegarder sur iCloud
+</button>
+
+<button class="restore-btn" onclick="restaurerDepuisIcloud()">
+📥 Restaurer depuis iCloud
+</button>
+
+<input type="file"
+       id="fileInput"
+       accept=".json"
+       onchange="handleImport(event)"
+       style="display:none">
+</div> <!-- FIN SECTION SAUVEGARDE -->
+
+</div> <!-- FIN CONTAINER PRINCIPAL -->
 
 <!-- 🧭 TABBAR EN BAS -->
 <div class="tabbar">
@@ -267,6 +270,7 @@ Divers
     ⚙️<span>Sauvegarde</span>
   </div>
 </div>
+    <script>
  
 let historique = JSON.parse(localStorage.getItem("historique")) || [];
 let cumulTotal = 0;
@@ -444,6 +448,8 @@ window.onload = function(){
     initChart();
     afficherHistorique();
     majGraph();
+    update();
+    updateObjectifs();
     document.getElementById("section-budget").classList.add("active");
 };
     
