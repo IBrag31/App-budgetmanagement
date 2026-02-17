@@ -100,9 +100,65 @@ td{
     width:0%;
     transition:width 0.5s ease;
 }
+    .section{
+    display:none;
+}
+
+.section.active{
+    display:block;
+}
+
+body{
+    padding-bottom:90px; /* évite que la tabbar cache le contenu */
+}
+
+.tabbar{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    height:78px;
+    background:rgba(15,23,42,0.92);
+    backdrop-filter:blur(25px);
+    -webkit-backdrop-filter:blur(25px);
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+    border-top:1px solid rgba(255,255,255,0.08);
+}
+
+.tab{
+    flex:1;
+    text-align:center;
+    font-size:18px;
+    opacity:0.5;
+    transition:0.2s ease;
+}
+
+.tab span{
+    display:block;
+    font-size:11px;
+    margin-top:4px;
+}
+
+.tab.active{
+    opacity:1;
+    transform:translateY(-2px);
+}
 </style>
 </head>
 <body>
+    <div class="tabbar">
+  <div class="tab active" onclick="showSection('budget', this)">
+    💰<span>Budget</span>
+  </div>
+  <div class="tab" onclick="showSection('objectifs', this)">
+    🎯<span>Objectifs</span>
+  </div>
+  <div class="tab" onclick="showSection('historique', this)">
+    📅<span>Historique</span>
+  </div>
+</div>
     <div style="max-width:500px;margin:auto;">
 
 <h1>💰 Mon Budget</h1>
@@ -194,7 +250,7 @@ Divers
 
 </div>
 <script>
-  alert("JS chargé");
+ 
 let historique = JSON.parse(localStorage.getItem("historique")) || [];
 let cumulTotal = 0;
 let historyChart;
@@ -354,12 +410,26 @@ function updateObjectifs(){
     document.getElementById("bar3").style.width =
         (projetRempli / objectif3) * 100 + "%";
 }
+    function showSection(name, element){
+
+    document.querySelectorAll(".section").forEach(sec=>{
+        sec.classList.remove("active");
+    });
+
+    document.querySelectorAll(".tab").forEach(tab=>{
+        tab.classList.remove("active");
+    });
+
+    document.getElementById("section-" + name).classList.add("active");
+    element.classList.add("active");
+}
 window.onload = function(){
     initChart();
     afficherHistorique();
     majGraph();
-
+    document.getElementById("section-budget").classList.add("active");
 };
+    
 </script>
 </div>
 </body>
