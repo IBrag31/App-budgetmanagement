@@ -209,33 +209,6 @@ function sauvegardeAuto(){
   function restaurerDepuisIcloud(){
     document.getElementById("fileInput").click();
 }
-  document.getElementById("fileInput").addEventListener("change", function(e){
-
-    const file = e.target.files[0];
-    if(!file) return;
-
-    const reader = new FileReader();
-
-    reader.onload = function(event){
-
-        try{
-            const data = JSON.parse(event.target.result);
-
-            historique = data.historique || [];
-            localStorage.setItem("historique", JSON.stringify(historique));
-
-            afficherHistorique();
-            majGraph();
-
-            alert("Données restaurées avec succès ✅");
-
-        } catch(error){
-            alert("Fichier invalide ❌");
-        }
-    };
-
-    reader.readAsText(file);
-});
   
 function updateObjectifs(){
 
@@ -268,6 +241,35 @@ window.onload = function(){
     initChart();
     afficherHistorique();
     majGraph();
+
+    document.getElementById("fileInput").addEventListener("change", function(e){
+
+        const file = e.target.files[0];
+        if(!file) return;
+
+        const reader = new FileReader();
+
+        reader.onload = function(event){
+
+            try{
+                const data = JSON.parse(event.target.result);
+
+                historique = data.historique || [];
+
+                localStorage.setItem("historique", JSON.stringify(historique));
+
+                afficherHistorique();
+                majGraph();
+
+                alert("Données restaurées avec succès ✅");
+
+            } catch(error){
+                alert("Fichier invalide ❌");
+            }
+        };
+
+        reader.readAsText(file);
+    });
 }
 </script>
 
