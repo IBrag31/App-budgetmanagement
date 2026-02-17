@@ -8,7 +8,7 @@
 <style>
 body{
     font-family:-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
-    background:#0f172a;
+    background: radial-gradient(circle at top left, #1e293b, #0f172a 60%);
     color:white;
     margin:0;
     padding:20px;
@@ -16,42 +16,55 @@ body{
 
 h1{
     text-align:center;
-    font-weight:600;
+    font-weight:700;
+    font-size:24px;
     margin-bottom:25px;
 }
 
 .card{
-    background:rgba(255,255,255,0.05);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-radius:20px;
-    padding:18px;
-    margin-bottom:20px;
-    box-shadow:0 8px 24px rgba(0,0,0,0.3);
+    background:rgba(255,255,255,0.06);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border-radius:24px;
+    padding:20px;
+    margin-bottom:22px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.35);
 }
 
 input{
     width:100%;
-    padding:12px;
+    padding:14px;
     margin:8px 0;
-    border-radius:14px;
+    border-radius:16px;
     border:none;
     font-size:16px;
-    background:#1e293b;
+    background:rgba(255,255,255,0.08);
     color:white;
+    outline:none;
+    transition:0.2s;
+}
+
+input:focus{
+    background:rgba(255,255,255,0.12);
 }
 
 button{
     width:100%;
-    padding:12px;
+    padding:14px;
     margin-top:10px;
     border:none;
-    border-radius:16px;
+    border-radius:18px;
     font-size:16px;
     font-weight:600;
-    background:#22c55e;
+    background:linear-gradient(145deg,#22c55e,#16a34a);
     color:white;
-    transition:0.2s;
+    transition:all 0.15s ease;
+    box-shadow:0 4px 12px rgba(0,0,0,0.3);
+}
+
+button:active{
+    transform:scale(0.96);
+    box-shadow:0 2px 6px rgba(0,0,0,0.4);
 }
 
 button:active{
@@ -90,10 +103,11 @@ td{
 </style>
 </head>
 <body>
+    <div style="max-width:500px;margin:auto;">
 
 <h1>💰 Mon Budget</h1>
 
-<div class="card">
+<div class="card section" id="section-budget">
 <h3>Budget</h3>
 
 Revenus
@@ -125,7 +139,7 @@ Divers
 
 </div>
 
-<div class="card">
+<div class="card section" id="section-objectifs">
 <h3>🎯 Objectifs</h3>
 
 <p>Fonds de sécurité (6000€)</p>
@@ -145,7 +159,7 @@ Divers
 
 </div>
 
-<div class="card">
+<div class="card section" id="section-historique">
 <h3>📅 Historique</h3>
 
 <button onclick="sauvegardeAuto()">💾 Sauvegarder sur iCloud</button>
@@ -347,5 +361,7 @@ window.onload = function(){
 
 };
 </script>
+</div>
 </body>
+
 </html>
