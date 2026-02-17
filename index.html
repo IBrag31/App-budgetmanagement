@@ -244,7 +244,15 @@ window.onload = function(){
     afficherHistorique();
     majGraph();
 
-    document.getElementById("fileInput").addEventListener("change", function(e){
+    window.onload = function(){
+
+    initChart();
+    afficherHistorique();
+    majGraph();
+
+    const input = document.getElementById("fileInput");
+
+    input.addEventListener("change", function(e){
 
         const file = e.target.files[0];
         if(!file) return;
