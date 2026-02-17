@@ -74,30 +74,28 @@ Divers
 
 <div class="card">
 <h3>📅 Historique</h3>
-  <button onclick="sauvegardeAuto()">Sauvegarder sur iCloud</button>
- <button onclick="restaurerDepuisIcloud()">
-  📥 Restaurer depuis iCloud
-</button>
 
-<input type="file" id="fileInput" accept=".json" style="display:none">
+<button onclick="sauvegardeAuto()">💾 Sauvegarder sur iCloud</button>
+
+<label style="cursor:pointer;">
+  📥 Restaurer depuis iCloud
+  <input type="file"
+         id="fileInput"
+         accept=".json"
+         onchange="handleImport(event)"
+         style="display:none">
+</label>
+
 <label>Choisir un mois</label>
 <input type="month" id="moisSelect">
 
 <button onclick="ajouterMois()">Ajouter ce mois</button>
 
 <table id="historiqueTable">
-<thead>
-<tr>
-<th>Mois</th>
-<th>Dépenses</th>
-<th>Épargne</th>
-<th>❌</th>
-</tr>
-</thead>
-<tbody></tbody>
+...
 </table>
 
-<canvas id="historyChart" style="margin-top:20px;"></canvas>
+<canvas id="historyChart"></canvas>
 
 </div>
 <script>
@@ -186,27 +184,53 @@ function supprimer(i){
   sauvegardeAuto();
 }
 function sauvegardeAuto(){
-  alert("Sauvegarde déclenchée");
+    alert("Sauvegarde déclenchée");
 
-    const data = {
-        historique: historique
-    };
-
-    const blob = new Blob(
-        [JSON.stringify(data, null, 2)],
-        { type: "application/json" }
-    );
-
-    const url = URL.createObjectURL(blob);
+    const dataStr = "data:text/json;charset=utf-8," +
+        encodeURIComponent(JSON.stringify({historique: historique}, null, 2));
 
     const a = document.createElement("a");
-    a.href = url;
-    a.download = "sauvegarde_budget.json";
+    a.setAttribute("href", dataStr);
+    a.setAttribute("download", "sauvegarde_budget.json");
+
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
+}
+  function handleImport(e){
+    alert("handleImport déclenché");
 
-    URL.revokeObjectURL(url);
+    const file = e.target.files[0];
+
+    if(!file){
+        alert("Aucun fichier détecté");
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function(event){
+
+        let data;
+
+        try{
+            data = JSON.parse(event.target.result);
+        } catch(error){
+            alert("Fichier invalide ❌");
+            return;
+        }
+
+        historique = data.historique || [];
+
+        localStorage.setItem("historique", JSON.stringify(historique));
+
+        afficherHistorique();
+        majGraph();
+
+        alert("Données restaurées avec succès ✅");
+    };
+
+    reader.readAsText(file);
 }
   function restaurerDepuisIcloud(){
     document.getElementById("fileInput").click();
@@ -244,44 +268,6 @@ window.onload = function(){
     afficherHistorique();
     majGraph();
 
-    window.onload = function(){
-
-    initChart();
-    afficherHistorique();
-    majGraph();
-
-    const input = document.getElementById("fileInput");
-
-    input.addEventListener("change", function(e){
-
-        const file = e.target.files[0];
-        if(!file) return;
-
-        const reader = new FileReader();
-
-        reader.onload = function(event){
-
-            let data;
-
-            try{
-                data = JSON.parse(event.target.result);
-            } catch(error){
-                alert("Fichier invalide ❌");
-                return;
-            }
-
-            historique = data.historique || [];
-
-            localStorage.setItem("historique", JSON.stringify(historique));
-
-            afficherHistorique();
-            majGraph();
-
-            alert("Données restaurées avec succès ✅");
-        };
-
-        reader.readAsText(file);
-    });
 };
 </script>
 </body>
