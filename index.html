@@ -251,26 +251,25 @@ window.onload = function(){
 
         reader.onload = function(event){
 
-            try{
-                const data = JSON.parse(event.target.result);
+    let data;
 
-                historique = data.historique || [];
+    try{
+        data = JSON.parse(event.target.result);
+    } catch(error){
+        alert("Fichier invalide ❌");
+        return;
+    }
 
-                localStorage.setItem("historique", JSON.stringify(historique));
+    // Si on arrive ici, le JSON est valide
+    historique = data.historique || [];
 
-                afficherHistorique();
-                majGraph();
+    localStorage.setItem("historique", JSON.stringify(historique));
 
-                alert("Données restaurées avec succès ✅");
+    afficherHistorique();
+    majGraph();
 
-            } catch(error){
-                alert("Fichier invalide ❌");
-            }
-        };
-
-        reader.readAsText(file);
-    });
-}
+    alert("Données restaurées avec succès ✅");
+};
 </script>
 
 </body>
