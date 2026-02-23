@@ -486,13 +486,25 @@ function showToast(message){
 
     clearTimeout(toastTimeout);
 
-    toast.innerText = message;
-    toast.style.opacity = "1";
+    // reset animation
+    toast.style.opacity = "0";
+    toast.style.transform = "translateX(-50%) translateY(0)";
+
+    setTimeout(()=>{
+
+        toast.innerText = message;
+        toast.style.opacity = "1";
+        toast.style.transform = "translateX(-50%) translateY(-5px)";
+
+    },10);
 
     toastTimeout = setTimeout(()=>{
         toast.style.opacity = "0";
+        toast.style.transform = "translateX(-50%) translateY(0)";
     },1500);
-        toast.style.transform = "translateX(-50%) translateY(-5px)";
+}
+       function restaurerDepuisIcloud(){
+    document.getElementById("fileInput").click();
 }
 
 window.onload = function(){
