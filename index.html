@@ -300,7 +300,7 @@ Divers
   </div>
 </div>
     <script>
- 
+window.onerror = (msg) => alert("Erreur JS: " + msg);
 let historique = JSON.parse(localStorage.getItem("historique")) || [];
 let cumulTotal = 0;
 let historyChart;
@@ -427,11 +427,14 @@ function sauvegardeAuto(){
         localStorage.setItem("historique", JSON.stringify(historique));
 
         afficherHistorique();
-        majGraph();
 
-        requestAnimationFrame(() => {
-            showToast("📥 Données restaurées");
-        });
+try{
+    majGraph();
+}catch(e){
+    console.log("Erreur majGraph :", e);
+}
+
+showToast("📥 Données restaurées");
     };
 
     // ⚠️ IMPORTANT → en dehors du onload
