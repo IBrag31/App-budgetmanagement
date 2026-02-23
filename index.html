@@ -434,20 +434,17 @@ function sauvegardeAuto(){
         localStorage.setItem("historique", JSON.stringify(historique));
 
         afficherHistorique();
+        majGraph();
+        updateObjectifs();
 
-try{
-    majGraph();
-}catch(e){
-    console.log("Erreur majGraph :", e);
-}
-
-showToast("📥 Données restaurées");
+        setTimeout(() => {
+            showToast("📥 Données restaurées");
+        }, 50);
     };
 
-    // ⚠️ IMPORTANT → en dehors du onload
+    // ← ICI, EN DEHORS DU onload
     reader.readAsText(file, "UTF-8");
 }
-  
 function updateObjectifs(){
 
     let total = getEpargneTotale();
