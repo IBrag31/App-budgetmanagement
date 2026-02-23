@@ -279,7 +279,7 @@ Divers
        id="fileInput"
        accept=".json"
        onchange="handleImport(event)"
-       style="display:none">
+       hidden>
 </div> <!-- FIN SECTION SAUVEGARDE -->
 
 </div> <!-- FIN CONTAINER PRINCIPAL -->
@@ -502,9 +502,6 @@ function showToast(message){
         toast.style.opacity = "0";
         toast.style.transform = "translateX(-50%) translateY(0)";
     },1500);
-}
-       function restaurerDepuisIcloud(){
-    document.getElementById("fileInput").click();
 }
 
 window.onload = function(){
