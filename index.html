@@ -134,10 +134,6 @@ td{
     transform:translateY(0);
 }
 
-.section.active{
-    display:block;
-}
-
 .tabbar{
     position:fixed;
     bottom:0;
@@ -474,6 +470,11 @@ function updateObjectifs(){
 
     document.getElementById("section-" + name).classList.add("active");
     element.classList.add("active");
+}
+   function restaurerDepuisIcloud(){
+    const input = document.getElementById("fileInput");
+    input.value = ""; // autorise recharger le même fichier
+    input.click();
 }
 
 function showToast(message){
