@@ -8,7 +8,8 @@
 <meta name="theme-color" content="#0f172a">
    
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
 <title>Mon Budget</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -18,6 +19,7 @@
     margin:0;
     padding:0;
 }
+  
 body{
     font-family:-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
     background: radial-gradient(circle at top left, #1e293b, #0f172a 60%);
@@ -25,8 +27,13 @@ body{
     margin:0;
     padding:20px;
     padding-bottom:90px; /* évite que la tabbar cache le contenu */
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: calc(90px + env(safe-area-inset-bottom));
+    overscroll-behavior: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
 }
-
+ 
 h1{
     text-align:center;
     font-weight:700;
@@ -192,9 +199,49 @@ td{
     isolation:isolate;
     transition:opacity 0.25s ease, transform 0.25s ease;
 }
+
+  #splash{
+    position:fixed;
+    inset:0;
+    background:#0f172a;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:99999;
+    transition:opacity 0.6s ease, transform 0.6s ease;
+}
+
+#splash.hide{
+    opacity:0;
+    transform:scale(1.05);
+    pointer-events:none;
+}
+
+#splash img{
+    width:120px;
+    height:120px;
+    border-radius:26px;
+    box-shadow:0 20px 40px rgba(0,0,0,0.4);
+    animation:splashPop 0.6s ease;
+}
+
+@keyframes splashPop{
+    from{
+        transform:scale(0.85);
+        opacity:0;
+    }
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+}
 </style>
 </head>
 <body>
+
+<div id="splash">
+    <img src="icon-180.png" alt="Mon Budget">
+</div>
 
 <div style="max-width:500px;margin:auto;">
 
@@ -549,6 +596,7 @@ function autoSaveDebounced(){
 }
        
 window.onload = function(){
+
     document.getElementById("section-budget").classList.add("active");
 
     initChart();
@@ -556,6 +604,20 @@ window.onload = function(){
     majGraph();
     update();
     updateObjectifs();
+
+    // Animation splash
+    setTimeout(() => {
+
+        const splash = document.getElementById("splash");
+        if(!splash) return;
+
+        splash.classList.add("hide");
+
+        setTimeout(() => {
+            splash.remove();
+        }, 600);
+
+    }, 700);
 };
 </script>
 
