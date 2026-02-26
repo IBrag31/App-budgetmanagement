@@ -391,15 +391,25 @@ function initChart(){
 }
 
 function update(){
-    const revenus = +revenus.value;
-    const depenses =
-        +charges.value +
-        +courses.value +
-        +essence.value +
-        +loisirs.value +
-        +divers.value;
 
-    const epargne = +epargneMois.value;
+    const revenusEl = document.getElementById("revenus");
+    const chargesEl = document.getElementById("charges");
+    const coursesEl = document.getElementById("courses");
+    const essenceEl = document.getElementById("essence");
+    const loisirsEl = document.getElementById("loisirs");
+    const diversEl = document.getElementById("divers");
+    const epargneEl = document.getElementById("epargneMois");
+
+    const revenus = +revenusEl.value;
+
+    const depenses =
+        +chargesEl.value +
+        +coursesEl.value +
+        +essenceEl.value +
+        +loisirsEl.value +
+        +diversEl.value;
+
+    const epargne = +epargneEl.value;
 
     cumulTotal = getEpargneTotale();
 
