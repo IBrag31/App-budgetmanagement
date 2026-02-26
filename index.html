@@ -329,10 +329,16 @@ function initChart(){
 
 function update(){
     const revenus = +revenus.value;
-    const depenses = +charges.value + +courses.value + +essence.value + +loisirs.value + +divers.value;
+    const depenses =
+        +charges.value +
+        +courses.value +
+        +essence.value +
+        +loisirs.value +
+        +divers.value;
+
     const epargne = +epargneMois.value;
 
-    cumulTotal += epargne;
+    const cumulTotal = getEpargneTotale();
 
     totalDepenses.innerText = "Total Dépenses : " + depenses + " €";
     reste.innerText = "Reste : " + (revenus - depenses - epargne) + " €";
@@ -361,8 +367,7 @@ function ajouterMois(){
     const epargne = +epargneMois.value;
 
     historique.push({mois: moisFinal, depenses, epargne});
-    localStorage.setItem("historique", JSON.stringify(historique));
-
+    autoSave();
     afficherHistorique();
     majGraph();
     updateObjectifs()
@@ -388,10 +393,12 @@ function afficherHistorique(){
         
 function supprimer(i){
     historique.splice(i,1);
-    localStorage.setItem("historique",JSON.stringify(historique));
+    autoSave();
     afficherHistorique();
     majGraph();
-  sauvegardeAuto();
+    updateObjectifs();
+
+    showToast("🗑️ Mois supprimé");
 }
 function sauvegardeAuto(){
     showToast("✔ Sauvegardé");
@@ -431,7 +438,7 @@ function sauvegardeAuto(){
 
         historique = data.historique || [];
 
-        localStorage.setItem("historique", JSON.stringify(historique));
+       autoSave();
 
         afficherHistorique();
         majGraph();
@@ -513,7 +520,11 @@ function showToast(message){
         toast.style.transform = "translateX(-50%) translateY(0)";
     },1500);
 }
-
+       
+function autoSave(){
+    localStorage.setItem("historique", JSON.stringify(historique));
+}
+       
 window.onload = function(){
     document.getElementById("section-budget").classList.add("active");
 
