@@ -288,6 +288,35 @@ td{
    *{
     -webkit-font-smoothing:antialiased;
 }
+
+   /* ===== APPLE SLIDE TRANSITION ===== */
+
+.section{
+    display:block; /* plus de display none */
+    position:absolute;
+    width:100%;
+    left:0;
+    top:0;
+
+    opacity:0;
+    transform:translateX(40px) scale(0.98);
+    pointer-events:none;
+
+    transition:
+        transform 0.38s cubic-bezier(.22,.61,.36,1),
+        opacity 0.28s ease;
+}
+
+.section.active{
+    opacity:1;
+    transform:translateX(0) scale(1);
+    pointer-events:auto;
+}
+
+.sections-container{
+    position:relative;
+    min-height:600px; /* ajuste si besoin */
+}
    
 </style>
 </head>
@@ -300,6 +329,8 @@ td{
 <div style="max-width:500px;margin:auto;">
 
 <h1>💰 Mon Budget</h1>
+
+<div class="sections-container">
 
 <!-- 💰 SECTION BUDGET -->
 <div class="card section" id="section-budget">
@@ -388,6 +419,8 @@ Divers
        onchange="handleImport(event)"
        hidden>
 </div> <!-- FIN SECTION SAUVEGARDE -->
+    
+   </div> <!-- FIN sections-container -->
 
 </div> <!-- FIN CONTAINER PRINCIPAL -->
 
@@ -673,27 +706,27 @@ function goToSection(index){
 
     const tabs = document.querySelectorAll(".tab");
 
-    currentSectionIndex = index;
+    const oldSection =
+        document.getElementById("section-" + sections[currentSectionIndex]);
 
-    document.querySelectorAll(".section").forEach(sec=>{
-        sec.classList.remove("active");
-    });
+    const newSection =
+        document.getElementById("section-" + sections[index]);
 
+    // retire ancienne section
+    oldSection.classList.remove("active");
+
+    // force iOS à recalculer l’animation
+    void newSection.offsetWidth;
+
+    // active nouvelle section
+    newSection.classList.add("active");
+
+    // tabs
     tabs.forEach(tab=>tab.classList.remove("active"));
-
-    document
-        .getElementById("section-" + sections[index])
-        .classList.add("active");
-
     tabs[index].classList.add("active");
+
+    currentSectionIndex = index;
 }
-       document.addEventListener("touchstart", (e)=>{
-    startX = e.touches[0].clientX;
-});
-
-document.addEventListener("touchend", (e)=>{
-
-    endX = e.changedTouches[0].clientX;
 
     const diff = endX - startX;
 
