@@ -345,6 +345,7 @@ td{
     backdrop-filter:blur(20px);
     padding:12px;
     border-radius:16px;
+   }
 
    .budget-row{
     display:flex;
@@ -427,6 +428,13 @@ td{
   <span>Épargne</span>
   <input type="number" id="epargneMois" value="300">
 </div>
+
+   <div class="card section" id="section-budget">
+
+    <div class="budget-row">
+      <span>Revenus</span>
+      <input type="number" id="revenus" value="1971">
+    </div>
 
 <div class="budget-summary">
   <h4 id="totalDepenses"></h4>
@@ -842,6 +850,7 @@ window.onload = function(){
     document.querySelectorAll("input").forEach(input=>{
     input.addEventListener("input", update);
 });
+   };
 
     // Animation splash
     setTimeout(() => {
@@ -855,7 +864,7 @@ window.onload = function(){
             splash.remove();
         }, 600);
 
-    }, 700);
+}, 700);
 };
 </script>
 
