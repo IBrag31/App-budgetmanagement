@@ -492,9 +492,9 @@ function update(){
 
     cumulTotal = getEpargneTotale();
 
-    totalDepenses.innerText = "Total Dépenses : " + depenses + " €";
-    reste.innerText = "Reste : " + (revenus - depenses - epargne) + " €";
-    cumul.innerText = "Épargne cumulée : " + cumulTotal + " €";
+   document.getElementById("totalDepenses").innerText = ...
+document.getElementById("reste").innerText = ...
+document.getElementById("cumul").innerText = ...
 }
 
 function ajouterMois(){
@@ -522,7 +522,8 @@ if(existeDeja){
     +document.getElementById("loisirs").value +
     +document.getElementById("divers").value;
 
-    const epargne = +epargneMois.value;
+    const epargne =
+    +document.getElementById("epargneMois").value;
 
     historique.push({mois: moisFinal, depenses, epargne});
     autoSaveDebounced();
