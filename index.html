@@ -72,7 +72,9 @@ h1{
     box-shadow:
         0 4px 20px rgba(0,0,0,0.18);
     padding:20px;
-    margin-bottom:22px;
+     margin-bottom:0;
+    height:100%;
+    overflow:auto;
 }
 
 input{
@@ -293,29 +295,27 @@ td{
 
 .section{
     position:absolute;
-    top:0;
-    left:0;
+    inset:0;
     width:100%;
-    min-height:calc(100vh - 220px);
+    padding:20px;
 
     opacity:0;
-    transform:translateX(40px) scale(0.98);
+    transform:translateX(30px);
     pointer-events:none;
 
-    transition:
-        transform 0.38s cubic-bezier(.22,.61,.36,1),
-        opacity 0.28s ease;
+    transition:opacity .25s ease, transform .25s ease;
 }
 
 .section.active{
     opacity:1;
-    transform:translateX(0) scale(1);
+    transform:translateX(0);
     pointer-events:auto;
 }
 
 .sections-container{
     position:relative;
-    min-height:calc(100vh - 220px);
+    height:calc(100vh - 160px);
+    overflow:hidden;
 }
 
    /* ===== APPLE BUDGET UI ===== */
