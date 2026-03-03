@@ -858,19 +858,19 @@ function updateObjectifs(){
     document.getElementById("bar3").style.width =
         (projetRempli / objectif3) * 100 + "%";
 }
-    function showSection(name, element){
+   function showSection(name, element){
 
-    document.querySelectorAll(".section").forEach(sec=>{
-        sec.classList.remove("active");
-    });
+    document.querySelectorAll(".section")
+        .forEach(sec => sec.classList.remove("active"));
 
-    document.querySelectorAll(".tab").forEach(tab=>{
-        tab.classList.remove("active");
-    });
+    document.querySelectorAll(".tab")
+        .forEach(tab => tab.classList.remove("active"));
 
-    document.getElementById("section-" + name).classList.add("active");
+    const newSection = document.getElementById("section-" + name);
+    newSection.classList.add("active");
+
     element.classList.add("active");
-    
+
     currentSectionIndex = sections.indexOf(name);
 }
    function restaurerDepuisIcloud(){
@@ -962,8 +962,6 @@ document.addEventListener("touchend", (e)=>{
     // swipe gauche
 
     window.onload = function(){
-
-    document.getElementById("section-budget").classList.add("active");
 
     initChart();
     afficherHistorique();
