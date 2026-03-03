@@ -866,8 +866,8 @@ function updateObjectifs(){
     document.querySelectorAll(".tab")
         .forEach(tab => tab.classList.remove("active"));
 
-    const newSection = document.getElementById("section-" + name);
-    newSection.classList.add("active");
+    document.getElementById("section-" + name)
+        .classList.add("active");
 
     element.classList.add("active");
 
