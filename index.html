@@ -545,6 +545,39 @@ box-shadow:0 6px 18px rgba(0,0,0,0.4);
 overflow:hidden;
 height:100%;
 }
+
+.depenses-title{
+font-size:18px;
+font-weight:600;
+margin-bottom:16px;
+opacity:.9;
+}
+
+.depenses-category{
+font-size:14px;
+margin-top:18px;
+margin-bottom:10px;
+opacity:.6;
+text-transform:uppercase;
+letter-spacing:.5px;
+}
+
+.depenses-section{
+margin-top:10px;
+}
+
+.depense-row{
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+padding:12px 14px;
+margin-bottom:10px;
+
+background:rgba(255,255,255,0.04);
+border:1px solid rgba(255,255,255,0.05);
+border-radius:14px;
+}
    
 </style>
 </head>
@@ -619,15 +652,24 @@ height:100%;
   <!-- PAGE 2 : DETAIL DEPENSES -->
 <div class="budget-page" id="budgetDetail">
 
-    <div id="depensesList"></div>
+    <h3 class="depenses-title">Dépenses</h3>
 
-    <div class="depenses-actions">
-        <button class="fab fab-add" onclick="ajouterDepense()">+</button>
-        <button class="fab fab-delete" onclick="activerSuppression()">✕</button>
-    </div>
+<div class="depenses-section">
+
+<h4 class="depenses-category">Dépenses fixes</h4>
+<div id="depensesFixes"></div>
+
+<h4 class="depenses-category">Dépenses variables</h4>
+<div id="depensesVariables"></div>
 
 </div>
 
+<div class="depenses-actions">
+<button class="fab fab-add" onclick="ajouterDepense()">+</button>
+<button class="fab fab-delete" onclick="activerSuppression()">✕</button>
+</div>
+
+</div>
 </div> <!-- budget-pages -->
 </div> <!-- budget-slider -->
 
@@ -789,6 +831,8 @@ function updateRing(){
     const montant = parseFloat(prompt("Montant ?"));
     if(isNaN(montant)) return;
 
+    const type = prompt("Type : fixe ou variable ?");
+
     depensesDetail.push({nom, montant});
     renderDepenses();
     updateRing();
@@ -802,20 +846,29 @@ function supprimerDepense(index){
 
 function renderDepenses(){
 
-    const container = document.getElementById("depensesList");
-    container.innerHTML = "";
+const fixes = document.getElementById("depensesFixes");
+const variables = document.getElementById("depensesVariables");
 
-    depensesDetail.forEach((d,i)=>{
-        container.innerHTML += `
-            <div class="depense-row">
-                <span>${d.nom}</span>
-                <div>
-                    ${d.montant} €
-                    <button onclick="supprimerDepense(${i})">✕</button>
-                </div>
-            </div>
-        `;
-    });
+fixes.innerHTML = "";
+variables.innerHTML = "";
+
+depensesDetail.forEach((d,i)=>{
+
+const row = `
+<div class="depense-row">
+<span>${d.nom}</span>
+<span>${d.montant} €</span>
+</div>
+`;
+
+if(d.type === "fixe"){
+fixes.innerHTML += row;
+}else{
+variables.innerHTML += row;
+}
+
+});
+
 }
 
 function goToBudgetPage(index){
