@@ -694,6 +694,25 @@ font-size:17px;
 width:100%;
 color:white;
 }
+
+.depense-row{
+transition:transform .2s ease, opacity .2s ease;
+}
+
+.depenses-category{
+display:flex;
+justify-content:space-between;
+align-items:center;
+font-size:14px;
+margin-top:18px;
+margin-bottom:10px;
+opacity:.7;
+}
+
+.depenses-category span{
+font-weight:600;
+opacity:.9;
+}
    
 </style>
 </head>
@@ -760,15 +779,17 @@ color:white;
   <!-- PAGE 2 : DETAIL DEPENSES -->
 <div class="budget-page" id="budgetDetail">
 
-    <h3 class="depenses-title">Dépenses</h3>
+<h4 class="depenses-category">
+Dépenses fixes <span id="totalFixes">0 €</span>
+</h4>
 
-<div class="depenses-section">
-
-<h4 class="depenses-category">Dépenses fixes</h4>
 <div id="depensesFixes"></div>
 
-<h4 class="depenses-category">Dépenses variables</h4>
-<div id="depensesVariables"></div>
+<h4 class="depenses-category">
+Dépenses variables <span id="totalVariables">0 €</span>
+</h4>
+
+<div id="depensesVariables"></div>    
 
 </div>
 
@@ -877,6 +898,7 @@ color:white;
   </div>
 </div>
     <script>
+let swipeStartX = 0;
 let historique = JSON.parse(localStorage.getItem("historique")) || [];
 
 let historyChart;
@@ -990,25 +1012,53 @@ function renderDepenses(){
 const fixes = document.getElementById("depensesFixes");
 const variables = document.getElementById("depensesVariables");
 
+let totalFixes = 0;
+let totalVariables = 0;
+
 fixes.innerHTML = "";
 variables.innerHTML = "";
 
 depensesDetail.forEach((d,i)=>{
 
 const row = `
-<div class="depense-row">
+<div class="depense-row"
+ontouchstart="startSwipe(event,${i})"
+ontouchend="endSwipe(event,${i})">
+
 <span>${d.nom}</span>
 <span>${d.montant} €</span>
+
 </div>
 `;
 
 if(d.type === "fixe"){
 fixes.innerHTML += row;
+totalFixes += d.montant;
 }else{
 variables.innerHTML += row;
+totalVariables += d.montant;
 }
 
 });
+
+document.getElementById("totalFixes").innerText = totalFixes + " €";
+document.getElementById("totalVariables").innerText = totalVariables + " €";
+
+}
+let swipeStartX = 0;
+
+function startSwipe(e,index){
+swipeStartX = e.touches[0].clientX;
+}
+
+function endSwipe(e,index){
+
+const diff = e.changedTouches[0].clientX - swipeStartX;
+
+if(diff < -80){
+supprimerDepense(index);
+showToast("🗑️ Dépense supprimée");
+}
 
 }
 
