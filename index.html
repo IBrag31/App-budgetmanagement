@@ -484,13 +484,13 @@ position:relative;
 }
 
 .depenses-actions{
-    position:absolute;
-    bottom:90px;
-    left:0;
-    right:0;
-    display:flex;
-    justify-content:space-between;
-    padding:0 20px;
+position:absolute;
+bottom:20px;
+left:20px;
+right:20px;
+display:flex;
+justify-content:space-between;
+pointer-events:auto;
 }
 
 .fab{
@@ -799,14 +799,15 @@ Dépenses fixes <span id="totalFixes">0 €</span>
 Dépenses variables <span id="totalVariables">0 €</span>
 </h4>
 
-<div id="depensesVariables"></div>    
-
-</div>
+<div id="depensesVariables"></div>
 
 <div class="depenses-actions">
 <button class="fab fab-add" onclick="ouvrirModal()">+</button>
 <button class="fab fab-delete" onclick="activerSuppression()">✕</button>
 </div>
+
+</div>
+
 
 </div>
 </div> <!-- budget-pages -->
