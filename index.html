@@ -914,7 +914,8 @@ let historique = JSON.parse(localStorage.getItem("historique")) || [];
 let historyChart;
 let autoSaveTimeout;
 
-let depensesDetail = [];
+let depensesDetail =
+JSON.parse(localStorage.getItem("depensesDetail")) || [];
 
 /* slider budget */
 let currentBudgetPage = 0;
@@ -961,7 +962,15 @@ function updateRing(){
    }
 
    function update(){
-    updateRing();
+
+const revenus = document.getElementById("revenus").value;
+const epargne = document.getElementById("epargneMois").value;
+
+localStorage.setItem("revenus", revenus);
+localStorage.setItem("epargneMois", epargne);
+
+updateRing();
+
 }
 
     function ouvrirModal(){
@@ -983,6 +992,7 @@ if(!nom || isNaN(montant)) return;
 
 depensesDetail.push({nom, montant, type});
 
+saveDepenses();
 renderDepenses();
 updateRing();
 
@@ -1013,6 +1023,7 @@ type = type.toLowerCase().trim();
 
 function supprimerDepense(index){
     depensesDetail.splice(index,1);
+    saveDepenses();
     renderDepenses();
     updateRing();
 }
@@ -1312,6 +1323,13 @@ function showToast(message){
         toast.style.transform = "translateX(-50%) translateY(0)";
     },1500);
 }
+
+function saveDepenses(){
+localStorage.setItem(
+"depensesDetail",
+JSON.stringify(depensesDetail)
+);
+}
        
 function autoSave(){
     localStorage.setItem("historique", JSON.stringify(historique));
@@ -1347,6 +1365,17 @@ function goToSection(index){
 }
 
     window.onload = function(){
+
+    const savedRevenus = localStorage.getItem("revenus");
+    const savedEpargne = localStorage.getItem("epargneMois");
+
+if(savedRevenus){
+document.getElementById("revenus").value = savedRevenus;
+}
+
+if(savedEpargne){
+document.getElementById("epargneMois").value = savedEpargne;
+}
 
     initChart();
     afficherHistorique();
