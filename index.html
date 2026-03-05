@@ -791,6 +791,8 @@ pointer-events:none;
             </div>
         </div>
 
+       <canvas id="depensesChart" height="140"></canvas>
+
     </div>
 
   <!-- PAGE 2 : DETAIL DEPENSES -->
@@ -915,6 +917,7 @@ Dépenses variables <span id="totalVariables">0 €</span>
   </div>
 </div>
     <script>
+let depensesChart;
 let swipeStartX = 0;
 let historique = JSON.parse(localStorage.getItem("historique")) || [];
 
@@ -943,8 +946,10 @@ const sections = ["budget","objectifs","historique","sauvegarde"];
 let currentSectionIndex = 0;
 
 function calculTotalDepenses(){
-    const total = depensesDetail.reduce((sum, d) => sum + d.montant, 0);
-    return Math.round(total * 100) / 100;
+const total = depensesDetail.reduce(
+(sum, d) => sum + Number(d.montant), 0
+);
+return Math.round(total * 100) / 100;
 }
 
 function updateRing(){
@@ -999,14 +1004,17 @@ document.getElementById("depenseModal").classList.remove("show");
 function validerDepense(){
 
 const nom = document.getElementById("depenseNom").value;
-const montant = parseFloat(document.getElementById("depenseMontant").value);
+const montant = parseFloat(
+document.getElementById("depenseMontant").value
+);
+
+const montantArrondi = Math.round(montant * 100) / 100;
 
 const type = document.getElementById("typeDepense").value;
 
 if(!nom || isNaN(montant)) return;
 
-depensesDetail.push({nom, montant, type});
-
+depensesDetail.push({nom, montant: montantArrondi, type});
 saveDepenses();
 renderDepenses();
 updateRing();
@@ -1043,11 +1051,48 @@ function supprimerDepense(index){
     updateRing();
 }
 
+function modifierDepense(index){
+
+const depense = depensesDetail[index];
+
+const nouveauNom = prompt("Nom de la dépense :", depense.nom);
+if(nouveauNom === null) return;
+
+const nouveauMontant = parseFloat(
+prompt("Montant :", depense.montant)
+);
+
+if(isNaN(nouveauMontant)) return;
+
+let nouveauType = prompt(
+"Type : fixe ou variable",
+depense.type
+);
+
+if(!nouveauType) return;
+
+nouveauType = nouveauType.toLowerCase().trim();
+
+depensesDetail[index] = {
+nom: nouveauNom,
+montant: nouveauMontant,
+type: nouveauType
+};
+
+saveDepenses();
+renderDepenses();
+updateRing();
+
+showToast("✏️ Dépense modifiée");
+
+}
+
 function renderDepenses(){
 
 const fixes = document.getElementById("depensesFixes");
 const variables = document.getElementById("depensesVariables");
 
+if(!fixes || !variables) return;
 let totalFixes = 0;
 let totalVariables = 0;
 
@@ -1058,6 +1103,7 @@ depensesDetail.forEach((d,i)=>{
 
 const row = `
 <div class="depense-row"
+onclick="modifierDepense(${i})"
 ontouchstart="startSwipe(event,${i})"
 ontouchend="endSwipe(event,${i})">
 
@@ -1080,6 +1126,7 @@ totalVariables += d.montant;
 document.getElementById("totalFixes").innerText = euro(totalFixes);
 document.getElementById("totalVariables").innerText = euro(totalVariables);
 
+updateDepensesChart();
 }
 
 let currentRow = null;
@@ -1147,6 +1194,58 @@ function initChart(){
             ]
         }
     });
+}
+
+       function initDepensesChart(){
+
+const canvas = document.getElementById("depensesChart");
+if(!canvas) return;
+
+const ctx = canvas.getContext("2d");
+
+depensesChart = new Chart(ctx,{
+type:"doughnut",
+data:{
+labels:["Fixes","Variables"],
+datasets:[{
+data:[0,0],
+backgroundColor:[
+"#22c55e",
+"#f59e0b"
+],
+borderWidth:0
+}]
+},
+options:{
+responsive:true,
+plugins:{
+legend:{
+display:false
+}
+},
+cutout:"70%"
+}
+});
+
+}
+       function updateDepensesChart(){
+
+if(!depensesChart) return;
+
+let fixes = 0;
+let variables = 0;
+
+depensesDetail.forEach(d=>{
+if(d.type === "fixe"){
+fixes += d.montant;
+}else{
+variables += d.montant;
+}
+});
+
+depensesChart.data.datasets[0].data = [fixes, variables];
+depensesChart.update();
+
 }
        function majGraph(){
 
@@ -1393,6 +1492,7 @@ document.getElementById("epargneMois").value = savedEpargne;
 }
 
     initChart();
+    initDepensesChart();
     afficherHistorique();
     majGraph();
     updateObjectifs();
