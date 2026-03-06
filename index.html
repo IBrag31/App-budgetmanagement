@@ -410,12 +410,25 @@ overflow:hidden;
     transform:rotate(-90deg);
 }
 
-.ring-bg{
+.ring-bg-fixes{
 fill:none;
-stroke:rgba(255,255,255,0.08);
-stroke-width:16;
+stroke:rgba(255,45,85,0.18);
+stroke-width:20;
 stroke-linecap:round;
-opacity:0.35;ok 
+}
+
+.ring-bg-variables{
+fill:none;
+stroke:rgba(50,215,75,0.18);
+stroke-width:20;
+stroke-linecap:round;
+}
+
+.ring-bg-total{
+fill:none;
+stroke:rgba(10,132,255,0.18);
+stroke-width:20;
+stroke-linecap:round;
 }
 
 .ring-progress{
@@ -921,17 +934,17 @@ filter: drop-shadow(0 0 6px rgba(255,255,255,0.05));
 
 </defs>
 
-<!-- FIXES (extérieur) -->
-<circle class="ring-bg" cx="100" cy="100" r="82"/>
-<circle class="ring-fixes" cx="100" cy="100" r="82" stroke="url(#gradientFixes)"/>
+<!-- FIXES -->
+<circle class="ring-bg-fixes" cx="100" cy="100" r="82"/>
+<circle class="ring-fixes" cx="100" cy="100" r="82"/>
 
 <!-- VARIABLES -->
-<circle class="ring-bg" cx="100" cy="100" r="64"/>
-<circle class="ring-variables" cx="100" cy="100" r="64" stroke="url(#gradientVariables)"/>
+<circle class="ring-bg-variables" cx="100" cy="100" r="64"/>
+<circle class="ring-variables" cx="100" cy="100" r="64"/>
 
 <!-- TOTAL -->
-<circle class="ring-bg" cx="100" cy="100" r="46"/>
-<circle class="ring-total" cx="100" cy="100" r="46" stroke="url(#gradientTotal)"/>
+<circle class="ring-bg-total" cx="100" cy="100" r="46"/>
+<circle class="ring-total" cx="100" cy="100" r="46"/>
 
 <!-- GLOSS -->
 <circle
