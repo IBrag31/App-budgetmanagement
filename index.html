@@ -417,6 +417,7 @@ overflow:hidden;
 }
 
 .ring-progress{
+    
     fill:none;
     stroke:#22c55e;
     stroke-width:14;
@@ -424,6 +425,29 @@ overflow:hidden;
     stroke-dasharray:440;
     stroke-dashoffset:440;
     transition:stroke-dashoffset 0.6s ease;
+}
+
+.ring-fixes,
+.ring-variables,
+.ring-total{
+stroke-linecap:round;
+transition:stroke-dashoffset 1.2s cubic-bezier(.22,.61,.36,1);
+}
+
+.ring-fixes{
+transition-delay:0s;
+}
+
+.ring-variables{
+transition-delay:0.2s;
+}
+
+.ring-total{
+transition-delay:0.4s;
+}
+
+.progress-ring{
+transform:rotate(-90deg);
 }
 
 .ring-center{
@@ -737,6 +761,47 @@ opacity:.9;
 .depense-row span{
 pointer-events:none;
 }
+
+.ring-bg{
+fill:none;
+stroke:rgba(255,255,255,0.08);
+stroke-width:16;
+}
+
+.ring-fixes,
+.ring-variables,
+.ring-total{
+fill:none;
+stroke-width:16;
+stroke-linecap:round;
+transition:stroke-dashoffset 1.2s cubic-bezier(.22,.61,.36,1);
+}
+
+.ring-fixes{
+stroke-dasharray:502;
+stroke-dashoffset:502;
+filter: drop-shadow(0 0 6px rgba(34,197,94,0.6));
+transition-delay:0s;
+}
+
+.ring-variables{
+stroke-dasharray:408;
+stroke-dashoffset:408;
+filter: drop-shadow(0 0 6px rgba(245,158,11,0.6));
+transition-delay:0.25s;
+}
+
+.ring-total{
+stroke-dasharray:314;
+stroke-dashoffset:314;
+filter: drop-shadow(0 0 8px rgba(59,130,246,0.7));
+transition-delay:0.5s;
+}
+
+.progress-ring{
+transform:rotate(-90deg);
+filter: drop-shadow(0 10px 20px rgba(0,0,0,0.35));
+}
    
 </style>
 </head>
@@ -778,25 +843,84 @@ pointer-events:none;
 </div>
 
         <div class="ring-container">
-            <svg class="progress-ring" width="180" height="180">
-                <circle
-                    class="ring-bg"
-                    cx="90"
-                    cy="90"
-                    r="70"
-                />
-                <circle
-                    class="ring-progress"
-                    cx="90"
-                    cy="90"
-                    r="70"
-                />
-            </svg>
-            <div class="ring-center">
-                <div id="ringPercent">0%</div>
-                <div id="ringAmount">0 €</div>
-            </div>
-        </div>
+
+<svg class="progress-ring" width="200" height="200">
+
+<defs>
+
+<linearGradient id="gradientFixes" x1="0%" y1="0%" x2="100%" y2="0%">
+<stop offset="0%" stop-color="#22c55e"/>
+<stop offset="100%" stop-color="#4ade80"/>
+</linearGradient>
+
+<linearGradient id="gradientVariables" x1="0%" y1="0%" x2="100%" y2="0%">
+<stop offset="0%" stop-color="#f59e0b"/>
+<stop offset="100%" stop-color="#fbbf24"/>
+</linearGradient>
+
+<linearGradient id="gradientTotal" x1="0%" y1="0%" x2="100%" y2="0%">
+<stop offset="0%" stop-color="#3b82f6"/>
+<stop offset="100%" stop-color="#60a5fa"/>
+</linearGradient>
+
+</defs>
+
+<!-- FIXES -->
+<circle
+class="ring-bg"
+cx="100"
+cy="100"
+r="80"
+/>
+
+<circle
+class="ring-fixes"
+cx="100"
+cy="100"
+r="80"
+stroke="url(#gradientFixes)"
+/>
+
+<!-- VARIABLES -->
+<circle
+class="ring-bg"
+cx="100"
+cy="100"
+r="65"
+/>
+
+<circle
+class="ring-variables"
+cx="100"
+cy="100"
+r="65"
+stroke="url(#gradientVariables)"
+/>
+
+<!-- TOTAL -->
+<circle
+class="ring-bg"
+cx="100"
+cy="100"
+r="50"
+/>
+
+<circle
+class="ring-total"
+cx="100"
+cy="100"
+r="50"
+stroke="url(#gradientTotal)"
+/>
+
+</svg>
+
+<div class="ring-center">
+<div id="ringPercent">0%</div>
+<div id="ringAmount">0 €</div>
+</div>
+
+</div>
 
        <canvas id="depensesChart" height="140"></canvas>
 
@@ -924,7 +1048,6 @@ Dépenses variables <span id="totalVariables">0 €</span>
   </div>
 </div>
     <script>
-let depensesChart;
 let swipeStartX = 0;
 let historique = JSON.parse(localStorage.getItem("historique")) || [];
 
@@ -967,19 +1090,45 @@ function updateRing(){
 
     const budgetMax = revenus - epargne;
 
+    let fixes = 0;
+    let variables = 0;
+
+depensesDetail.forEach(d=>{
+if(d.type === "fixe"){
+fixes += d.montant;
+}else{
+variables += d.montant;
+}
+});
+
     let percent = budgetMax > 0 ? depenses / budgetMax : 0;
     if(percent > 1) percent = 1;
 
     const circumference = 440;
     const offset = circumference - percent * circumference;
 
+   const fixesPercent = budgetMax > 0 ? fixes / budgetMax : 0;
+   const variablesPercent = budgetMax > 0 ? variables / budgetMax : 0;
+   const totalPercent = budgetMax > 0 ? depenses / budgetMax : 0;
+
+document.querySelector(".ring-fixes")
+.style.strokeDashoffset = 502 - fixesPercent * 502;
+
+document.querySelector(".ring-variables")
+.style.strokeDashoffset = 408 - variablesPercent * 408;
+
+document.querySelector(".ring-total")
+.style.strokeDashoffset = 314 - totalPercent * 314;
+
     const depensesEl = document.getElementById("dashboardDepenses");
     if(depensesEl){
          depensesEl.innerText = euro(depenses);
 }
 
-    document.querySelector(".ring-progress")
-        .style.strokeDashoffset = offset;
+    const ringProgress = document.querySelector(".ring-progress");
+    if(ringProgress){
+    ringProgress.style.strokeDashoffset = offset;
+}
 
     document.getElementById("ringPercent").innerText =
         Math.round(percent * 100) + "%";
@@ -1132,8 +1281,6 @@ totalVariables += d.montant;
 
 document.getElementById("totalFixes").innerText = euro(totalFixes);
 document.getElementById("totalVariables").innerText = euro(totalVariables);
-
-updateDepensesChart();
 }
 
 let currentRow = null;
@@ -1203,57 +1350,6 @@ function initChart(){
     });
 }
 
-       function initDepensesChart(){
-
-const canvas = document.getElementById("depensesChart");
-if(!canvas) return;
-
-const ctx = canvas.getContext("2d");
-
-depensesChart = new Chart(ctx,{
-type:"doughnut",
-data:{
-labels:["Fixes","Variables"],
-datasets:[{
-data:[0,0],
-backgroundColor:[
-"#22c55e",
-"#f59e0b"
-],
-borderWidth:0
-}]
-},
-options:{
-responsive:true,
-plugins:{
-legend:{
-display:false
-}
-},
-cutout:"70%"
-}
-});
-
-}
-       function updateDepensesChart(){
-
-if(!depensesChart) return;
-
-let fixes = 0;
-let variables = 0;
-
-depensesDetail.forEach(d=>{
-if(d.type === "fixe"){
-fixes += d.montant;
-}else{
-variables += d.montant;
-}
-});
-
-depensesChart.data.datasets[0].data = [fixes, variables];
-depensesChart.update();
-
-}
        function majGraph(){
 
     if(!historyChart) return;
@@ -1523,13 +1619,15 @@ document.getElementById("epargneMois").value = savedEpargne;
 }
 
     initChart();
-    initDepensesChart();
     afficherHistorique();
     majGraph();
     updateObjectifs();
 
     renderDepenses();
+
+    setTimeout(()=>{
     updateRing();
+    },200);
 
     document.querySelectorAll("input").forEach(input=>{
         input.addEventListener("input", update);
