@@ -406,10 +406,6 @@ overflow:hidden;
     margin:20px auto;
 }
 
-.progress-ring{
-    transform:rotate(-90deg);
-}
-
 .ring-bg-fixes{
 fill:none;
 stroke:rgba(255,45,85,0.18);
@@ -431,17 +427,6 @@ stroke-width:20;
 stroke-linecap:round;
 }
 
-.ring-progress{
-    
-    fill:none;
-    stroke:#22c55e;
-    stroke-width:14;
-    stroke-linecap:round;
-    stroke-dasharray:440;
-    stroke-dashoffset:440;
-    transition:stroke-dashoffset 0.6s ease;
-}
-
 .ring-fixes,
 .ring-variables,
 .ring-total{
@@ -459,10 +444,6 @@ transition-delay:0.2s;
 
 .ring-total{
 transition-delay:0.4s;
-}
-
-.progress-ring{
-transform:rotate(-90deg);
 }
 
 .ring-center{
@@ -673,14 +654,11 @@ pointer-events:auto;
 }
 
 .modal-content{
-<div class="modal-handle"></div>
 width:90%;
 max-width:420px;
 background:#1f2937;
 border-radius:24px 24px 0 0;
-
 padding:22px;
-
 animation:modalPop .25s ease;
 }
 
@@ -805,7 +783,8 @@ stroke-linecap:round;
 
 .ring-fixes{
 fill:none;
-stroke-width:18;
+stroke:url(#gradientFixes);
+stroke-width:20;
 stroke-linecap:round;
 
 stroke-dasharray:515;
@@ -819,30 +798,32 @@ transition-delay:0s;
 
 .ring-variables{
 fill:none;
-stroke-width:18;
+stroke:url(#gradientVariables);
+stroke-width:20;
 stroke-linecap:round;
 
 stroke-dasharray:402;
 stroke-dashoffset:402;
 
-filter: drop-shadow(0 0 5px rgba(10,132,255,0.35));
+filter: drop-shadow(0 0 5px rgba(50,215,75,0.35));
 
 transition:stroke-dashoffset 1.2s cubic-bezier(.22,.61,.36,1);
-transition-delay:0.25s;
+transition-delay:0.2s;
 }
 
 .ring-total{
 fill:none;
-stroke-width:18;
+stroke:url(#gradientTotal);
+stroke-width:20;
 stroke-linecap:round;
 
 stroke-dasharray:289;
 stroke-dashoffset:289;
 
-filter: drop-shadow(0 0 5px rgba(59,130,246,0.4));
+filter: drop-shadow(0 0 5px rgba(10,132,255,0.35));
 
 transition:stroke-dashoffset 1.2s cubic-bezier(.22,.61,.36,1);
-transition-delay:0.5s;
+transition-delay:0.4s;
 }
    
 .progress-ring{
@@ -934,17 +915,50 @@ filter: drop-shadow(0 0 6px rgba(255,255,255,0.05));
 
 </defs>
 
-<!-- FIXES -->
-<circle class="ring-bg-fixes" cx="100" cy="100" r="82"/>
-<circle class="ring-fixes" cx="100" cy="100" r="82"/>
+<!-- FIXES (anneau extérieur) -->
+<circle
+class="ring-bg-fixes"
+cx="100"
+cy="100"
+r="82"
+/>
 
-<!-- VARIABLES -->
-<circle class="ring-bg-variables" cx="100" cy="100" r="64"/>
-<circle class="ring-variables" cx="100" cy="100" r="64"/>
+<circle
+class="ring-fixes"
+cx="100"
+cy="100"
+r="82"
+/>
 
-<!-- TOTAL -->
-<circle class="ring-bg-total" cx="100" cy="100" r="46"/>
-<circle class="ring-total" cx="100" cy="100" r="46"/>
+<!-- VARIABLES (anneau milieu) -->
+<circle
+class="ring-bg-variables"
+cx="100"
+cy="100"
+r="64"
+/>
+
+<circle
+class="ring-variables"
+cx="100"
+cy="100"
+r="64"
+/>
+
+<!-- TOTAL (anneau intérieur) -->
+<circle
+class="ring-bg-total"
+cx="100"
+cy="100"
+r="46"
+/>
+
+<circle
+class="ring-total"
+cx="100"
+cy="100"
+r="46"
+/>
 
 <!-- GLOSS -->
 <circle
