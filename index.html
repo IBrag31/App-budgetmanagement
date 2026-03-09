@@ -754,8 +754,6 @@ transition-delay:0.4s;
 transform: rotate(-90deg);
 transform-origin: 50% 50%;
 overflow:visible;
-}
-
 animation: ringLight 8s linear infinite;
 }
 
@@ -867,7 +865,6 @@ display:none;
 <div class="section active" id="section-budget">
 
     <!-- PAGE 1 : DASHBOARD -->
-    <div class="budget-page" id="budgetDashboard">
       
     <div class="section-scroll">
 
@@ -1011,7 +1008,6 @@ opacity="0.25"
 </div> <!-- FIN PAGE 1 -->
       
   <!-- PAGE 2 : DETAIL DEPENSES -->
-<div class="budget-page" id="budgetDetail">
 
 <div class="section-scroll">
   
@@ -1142,10 +1138,6 @@ minimumFractionDigits:2,
 maximumFractionDigits:2
 }) + " €";
 }
-
-/* slider budget */
-let currentBudgetPage = 0;
-let budgetStartX = 0;
 
 /* swipe sections */
 let startX = 0;
@@ -1429,19 +1421,6 @@ showToast("🗑️ Dépense supprimée");
 currentRow.style.transform = "translateX(0)";
 currentRow.classList.remove("swiping");
 
-}
-
-}
-
-function goToBudgetPage(index){
-
-    if(index < 0 || index > 1) return;
-
-    const pages = document.getElementById("budgetPages");
-
-    pages.style.transform = `translateX(-${index * 50}%)`;
-
-    currentBudgetPage = index;
 }
 
 function initChart(){
