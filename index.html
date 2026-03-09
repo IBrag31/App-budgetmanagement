@@ -1727,34 +1727,6 @@ document.getElementById("epargneTotale").value = savedEpargneTotale;
         input.addEventListener("input", update);
     });
 
-    /* SWIPE PAGES BUDGET */
-
-    const budgetSection = document.getElementById("section-budget");
-
-    if(budgetSection){
-
-        budgetSection.addEventListener("touchstart",(e)=>{
-            budgetStartX = e.touches[0].clientX;
-        });
-
-        budgetSection.addEventListener("touchend",(e)=>{
-
-            const diff = e.changedTouches[0].clientX - budgetStartX;
-
-            if(Math.abs(diff) < 70) return;
-
-            if(diff < 0){
-                goToBudgetPage(currentBudgetPage + 1);
-            }
-
-            if(diff > 0){
-                goToBudgetPage(currentBudgetPage - 1);
-            }
-
-        });
-
-    }
-
     /* SWIPE SECTIONS SUR TABBAR */
 
     const tabbar = document.querySelector(".tabbar");
