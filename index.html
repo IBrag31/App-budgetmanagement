@@ -46,9 +46,11 @@ body{
 font-family:-apple-system, BlinkMacSystemFont,"SF Pro Text",sans-serif;
 color:white;
 
-padding:16px;
-padding-top:calc(env(safe-area-inset-top) + 6px);
+padding-top:env(safe-area-inset-top);
 padding-bottom:calc(90px + env(safe-area-inset-bottom));
+padding-left:16px;
+padding-right:16px;
+}
 
 min-height:100vh;
 
@@ -928,17 +930,17 @@ margin-left:-16px;
 }
 
 .page-header h1{
-font-size:24px;
+font-size:22px;
 font-weight:700;
-  
+
 letter-spacing:-0.2px;
 
 margin:0;
-line-height:1.1;
+line-height:1.15;
 }
 
 .page-date{
-font-size:15px;
+font-size:12px;
 opacity:0.6;
 
 margin-top:2px;
