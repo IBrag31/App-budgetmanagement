@@ -843,6 +843,25 @@ padding-bottom:120px;
 .section-scroll::-webkit-scrollbar{
 display:none;
 }
+
+.activity-main{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:20px;
+}
+
+.activity-footer{
+text-align:right;
+font-size:20px;
+opacity:.35;
+margin-top:8px;
+}
+
+.arrow{
+font-size:22px;
+opacity:0.35;
+}
    
 </style>
 </head>
@@ -864,16 +883,18 @@ display:none;
     <div class="section-scroll">
 
     <h3 class="budget-title">Résumé</h3>
-
+ 
   <div class="card card-activity">
   
-  <div class="activity-title">Anneaux Budget</div>
+  <div class="activity-header">
+Anneaux Budget
+</div>
 
-  <div class="activity-row">
+  <div class="activity-row activity-main">
   
-   <div class="activity-left">
+   <div class="activity-rings">
 
-<svg class="progress-ring" width="180" height="180">
+<svg class="progress-ring" width="200" height="200">
 <defs>
 
 <linearGradient id="gradientFixes" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -959,7 +980,7 @@ opacity="0.25"
 
 </div>
 
-<div class="activity-right">
+<div class="activity-stats">
 
 <div class="activity-item red">
 <span>Épargne</span>
@@ -978,7 +999,13 @@ opacity="0.25"
 
 </div>
 
+</div> <!-- activity-row -->
+
+<div class="activity-footer">
+<span class="arrow">›</span>
 </div>
+
+</div> <!-- card -->
 
     <div class="budget-card">
     <label>Revenus</label>
