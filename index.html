@@ -468,7 +468,7 @@ width:100%;
 max-width:500px;
 margin:auto;
 position:relative;
-padding:0 6px;
+padding:0;
 }
 
 .depenses-actions{
@@ -783,19 +783,21 @@ filter: drop-shadow(0 0 6px rgba(255,255,255,0.05));
 background:
 radial-gradient(circle at 80% 20%, rgba(255,255,255,0.06), transparent 60%),
 #1c1c1e;
-}
 
 border-radius:26px;
 padding:18px 20px 20px 20px;
+
 display:flex;
 flex-direction:column;
-min-height:210px;
-width:100%;
+
+min-height:220px;
+
+/* largeur Apple */
+width:calc(100% + 32px);
+margin-left:-16px;
+margin-right:-16px;
 
 overflow:hidden;
-
-margin-left:-6px;
-margin-right:-6px;
 }
 
 .activity-title{
@@ -830,12 +832,11 @@ display:flex;
 flex-direction:column;
 justify-content:center;
 
-gap:14px;
+gap:18px;
 
 min-width:0;
-overflow:hidden;
 
-padding-left:10px;
+padding-left:16px;
 }
 
 .activity-item span{
@@ -882,13 +883,11 @@ gap:12px;
 
 .activity-footer{
 position:absolute;
-text-align:right;
 font-size:20px;
 opacity:0.35;
-margin-top:8px;
-right:14px
-bottom:14px
-font-size:22px
+right:14px;
+bottom:14px;
+font-size:22px;
 }
 
 .arrow{
@@ -897,11 +896,12 @@ opacity:0.35;
 }
 
 .activity-rings{
-flex:0 0 120px;
-margin-top:18px;
+flex:0 0 130px;
+margin-top:24px;
+margin-left:-4px;
 display:flex;
 align-items:center;
-justify-content:flex-start;
+justify-content:center;
 }
 
 .activity-header{
@@ -918,15 +918,15 @@ text-align:left;
 }
 
 .page-header h1{
-font-size:30px;
+font-size:25px;
 font-weight:700;
 letter-spacing:-0.3px;
 }
 
 .page-date{
-font-size:15px;
-opacity:0.6;
-margin-top:2px;
+font-size:14px;
+opacity:0.55;
+margin-top:-2px;
 }
    
 </style>
@@ -963,7 +963,7 @@ Anneaux Budget
   
    <div class="activity-rings">
 
-<svg class="progress-ring" width="140" height="140">
+<svg class="progress-ring" width="125" height="125">
 <defs>
 
 <linearGradient id="gradientFixes" x1="0%" y1="0%" x2="100%" y2="0%">
