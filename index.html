@@ -379,24 +379,18 @@ border-radius:14px;
 }
 
 .ring-bg-fixes{
-fill:none;
-stroke:rgba(255,45,85,0.18);
-stroke-width:18;
-stroke-linecap:round;
+stroke:rgba(255,55,95,0.18);
+stroke-width:16;
 }
 
 .ring-bg-variables{
-fill:none;
-stroke:rgba(50,215,75,0.18);
-stroke-width:18;
-stroke-linecap:round;
+stroke:rgba(48,209,88,0.18);
+stroke-width:16;
 }
 
 .ring-bg-total{
-fill:none;
 stroke:rgba(10,132,255,0.18);
-stroke-width:18;
-stroke-linecap:round;
+stroke-width:16;
 }
 
 .ring-center{
@@ -680,44 +674,28 @@ opacity:.9;
 pointer-events:none;
 }
 
-.ring-fixes,
-.ring-variables,
-.ring-total{
-stroke-linecap: round;
-animation:ringLight 8s linear infinite;
-}
-
-/* FIXES */
 .ring-fixes{
 stroke:url(#gradientFixes);
 stroke-width:16;
 
 stroke-dasharray:339;
 stroke-dashoffset:339;
-
-transition:stroke-dashoffset 1.2s cubic-bezier(.22,.61,.36,1);
 }
 
-/* VARIABLES */
 .ring-variables{
 stroke:url(#gradientVariables);
 stroke-width:16;
 
 stroke-dasharray:264;
 stroke-dashoffset:264;
-
-transition:stroke-dashoffset 1.2s cubic-bezier(.22,.61,.36,1);
 }
 
-/* TOTAL */
 .ring-total{
 stroke:url(#gradientTotal);
 stroke-width:16;
 
 stroke-dasharray:188;
 stroke-dashoffset:188;
-
-transition:stroke-dashoffset 1.2s cubic-bezier(.22,.61,.36,1);
 }
    
 .progress-ring{
@@ -1214,9 +1192,9 @@ variables += d.montant;
 let percent = budgetMax > 0 ? depenses / budgetMax : 0;
 if(percent > 1) percent = 1;
 
-const fixesPercent = budgetMax > 0 ? fixes / budgetMax : 0;
-const variablesPercent = depenses > 0 ? variables / depenses : 0;
-const totalPercent = budgetMax > 0 ? depenses / budgetMax : 0;
+const fixesPercent = budgetMax > 0 ? fixes / budgetMax : 0, 1);
+const variablesPercent = budgetMax > 0 ? variables / budgetMax : 0, 1);
+const totalPercent = budgetMax > 0 ? depenses / budgetMax : 0, 1);
 
 const fixesRing = document.querySelector(".ring-fixes");
 const variablesRing = document.querySelector(".ring-variables");
@@ -1245,8 +1223,10 @@ const restant = Math.max(budgetMax - depenses, 0);
 
 if(rEpar){
 rEpar.innerText =
-euro(epargneActuelle) + " / " + euro(objectifEpargne) + " €";
-}
+Math.round(epargneActuelle).toLocaleString("fr-FR")
++ " / "
++ Math.round(objectifEpargne).toLocaleString("fr-FR")
++ " €";
 
 if(rDep){
 rDep.innerText =
