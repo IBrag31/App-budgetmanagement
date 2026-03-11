@@ -1041,16 +1041,16 @@ Anneaux Budget
 </defs>
 
 <!-- FIXES -->
-<circle class="ring-bg-fixes" cx="62.5" cy="62.5" r="50"/>
-<circle class="ring-fixes" cx="62.5" cy="62.5" r="50"/>
+<circle class="ring-bg-fixes" cx="62.5" cy="62.5" r="48"/>
+<circle class="ring-fixes" cx="62.5" cy="62.5" r="48"/>
 
 <!-- VARIABLES -->
-<circle class="ring-bg-variables" cx="62.5" cy="62.5" r="40"/>
-<circle class="ring-variables" cx="62.5" cy="62.5" r="40"/>
+<circle class="ring-bg-variables" cx="62.5" cy="62.5" r="36"/>
+<circle class="ring-variables" cx="62.5" cy="62.5" r="36"/>
 
 <!-- TOTAL -->
-<circle class="ring-bg-total" cx="62.5" cy="62.5" r="30"/>
-<circle class="ring-total" cx="62.5" cy="62.5" r="30"/>
+<circle class="ring-bg-total" cx="62.5" cy="62.5" r="24"/>
+<circle class="ring-total" cx="62.5" cy="62.5" r="24"/>
 <!-- GLOSS -->
 <circle
 cx="62.5"
@@ -1295,13 +1295,13 @@ const variablesRing = document.querySelector(".ring-variables");
 const totalRing = document.querySelector(".ring-total");
 
 if(fixesRing)
-fixesRing.style.strokeDashoffset = 314 - fixesPercent * 314;
+fixesRing.style.strokeDashoffset = 302 - fixesPercent * 302;
 
 if(variablesRing)
-variablesRing.style.strokeDashoffset = 238 - variablesPercent * 238;
+variablesRing.style.strokeDashoffset = 226 - variablesPercent * 226;
 
 if(totalRing)
-totalRing.style.strokeDashoffset = 163 - totalPercent * 163;
+totalRing.style.strokeDashoffset = 151 - totalPercent * 151;
 
 const depensesEl = document.getElementById("dashboardDepenses");
 if(depensesEl){
