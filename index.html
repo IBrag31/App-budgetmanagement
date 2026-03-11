@@ -53,7 +53,7 @@ padding-right:16px;
 
 min-height:100vh;
 background:#000;
-}
+  
 overscroll-behavior:none;
 -webkit-user-select:none;
 -webkit-tap-highlight-color:transparent;
@@ -296,14 +296,6 @@ transform:scale(1);
     overflow:hidden; 
 }
 
-   html{
-background:#000;
-}
-
-   *{
-    -webkit-font-smoothing:antialiased;
-}
-
    /* ===== APPLE SLIDE TRANSITION ===== */
 
 .section{
@@ -431,15 +423,6 @@ stroke-linecap:round;
     opacity:0.6;
 }
 
-.depense-row{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:10px;
-    padding:10px;
-    background:rgba(255,255,255,0.05);
-    border-radius:12px;
-}
 .depense-row button{
     margin-left:8px;
     background:none;
@@ -681,10 +664,6 @@ width:100%;
 color:white;
 }
 
-.depense-row{
-transition:transform .2s ease, opacity .2s ease;
-}
-
 .depenses-category{
 display:flex;
 justify-content:space-between;
@@ -711,62 +690,56 @@ stroke-linecap: round;
 animation:ringLight 8s linear infinite;
 }
 
+/* FIXES */
 .ring-fixes{
-fill:none;
 stroke:url(#gradientFixes);
-stroke-width18;
-stroke-linecap:round;
+stroke-width:16;
 
-stroke-dasharray:302;
-stroke-dashoffset:302;
+stroke-dasharray:339;
+stroke-dashoffset:339;
 
-filter:
-drop-shadow(0 0 8px rgba(255,55,95,0.5))
-drop-shadow(0 0 18px rgba(255,55,95,0.2));
-
-transition:stroke-dashoffset 1.4s cubic-bezier(.22,.61,.36,1);
-transition-delay:0s;
+transition:stroke-dashoffset 1.2s cubic-bezier(.22,.61,.36,1);
 }
 
+/* VARIABLES */
 .ring-variables{
-fill:none;
 stroke:url(#gradientVariables);
-stroke-width:18;
-stroke-linecap:round;
+stroke-width:16;
 
-stroke-dasharray:226;
-stroke-dashoffset:226;
+stroke-dasharray:264;
+stroke-dashoffset:264;
 
-filter:
-drop-shadow(0 0 8px rgba(48,209,88,0.5))
-drop-shadow(0 0 18px rgba(48,209,88,0.25));
-
-transition:stroke-dashoffset 1.4s cubic-bezier(.22,.61,.36,1);
-transition-delay:0.2s;
+transition:stroke-dashoffset 1.2s cubic-bezier(.22,.61,.36,1);
 }
 
+/* TOTAL */
 .ring-total{
-fill:none;
 stroke:url(#gradientTotal);
-stroke-width:18;
-stroke-linecap:round;
+stroke-width:16;
 
-stroke-dasharray:151;
-stroke-dashoffset:151;
+stroke-dasharray:188;
+stroke-dashoffset:188;
 
-filter:  
-drop-shadow(0 0 8px rgba(10,132,255,0.5))
-drop-shadow(0 0 18px rgba(10,132,255,0.2));
-
-transition:stroke-dashoffset 1.4s cubic-bezier(.22,.61,.36,1);
-transition-delay:0.4s;
+transition:stroke-dashoffset 1.2s cubic-bezier(.22,.61,.36,1);
 }
    
 .progress-ring{
-transform: rotate(-90deg);
-transform-origin: 50% 50%;
+transform:rotate(-90deg);
+transform-origin:50% 50%;
 overflow:visible;
-will-change:transform;
+}
+
+.progress-ring circle{
+fill:none;
+stroke-linecap:round;
+}
+
+/* fond */
+.ring-bg-fixes,
+.ring-bg-variables,
+.ring-bg-total{
+stroke:#2a2a2c;
+stroke-width:16;
 }
 
 @keyframes ringLight{
@@ -1006,54 +979,19 @@ Anneaux Budget
   
   <div class="activity-rings">
 
-<svg class="progress-ring" width="125" height="125">
-
-<defs>
-
-<linearGradient id="gradientFixes" x1="0%" y1="0%" x2="100%" y2="0%">
-<stop offset="0%" stop-color="#ff375f"/>
-<stop offset="100%" stop-color="#ff2d55"/>
-</linearGradient>
-
-<linearGradient id="gradientVariables" x1="0%" y1="0%" x2="100%" y2="0%">
-<stop offset="0%" stop-color="#30d158"/>
-<stop offset="100%" stop-color="#32d74b"/>
-</linearGradient>
-
-<linearGradient id="gradientTotal" x1="0%" y1="0%" x2="100%" y2="0%">
-<stop offset="0%" stop-color="#0a84ff"/>
-<stop offset="100%" stop-color="#64d2ff"/>
-</linearGradient>
-
-<linearGradient id="ringGloss" x1="0%" y1="0%" x2="0%" y2="100%">
-<stop offset="0%" stop-color="rgba(255,255,255,0.45)"/>
-<stop offset="35%" stop-color="rgba(255,255,255,0.15)"/>
-<stop offset="100%" stop-color="rgba(255,255,255,0)"/>
-</linearGradient>
-
-</defs>
+<svg class="progress-ring" width="140" height="140" viewBox="0 0 140 140">
 
 <!-- FIXES -->
-<circle class="ring-bg-fixes" cx="62.5" cy="62.5" r="48"/>
-<circle class="ring-fixes" cx="62.5" cy="62.5" r="48"/>
+<circle class="ring-bg-fixes" cx="70" cy="70" r="54"/>
+<circle class="ring-fixes" cx="70" cy="70" r="54"/>
 
 <!-- VARIABLES -->
-<circle class="ring-bg-variables" cx="62.5" cy="62.5" r="36"/>
-<circle class="ring-variables" cx="62.5" cy="62.5" r="36"/>
+<circle class="ring-bg-variables" cx="70" cy="70" r="42"/>
+<circle class="ring-variables" cx="70" cy="70" r="42"/>
 
 <!-- TOTAL -->
-<circle class="ring-bg-total" cx="62.5" cy="62.5" r="24"/>
-<circle class="ring-total" cx="62.5" cy="62.5" r="24"/>
-<!-- GLOSS -->
-<circle
-cx="62.5"
-cy="62.5"
-r="26"
-stroke="url(#ringGloss)"
-stroke-width="18"
-fill="none"
-opacity="0.25"
-/>
+<circle class="ring-bg-total" cx="70" cy="70" r="30"/>
+<circle class="ring-total" cx="70" cy="70" r="30"/>
 
 </svg>
 
@@ -1288,13 +1226,14 @@ const variablesRing = document.querySelector(".ring-variables");
 const totalRing = document.querySelector(".ring-total");
 
 if(fixesRing)
-fixesRing.style.strokeDashoffset = 302 - fixesPercent * 302;
+fixesRing.style.strokeDashoffset = 339 - fixesPercent * 339;
 
 if(variablesRing)
-variablesRing.style.strokeDashoffset = 226 - variablesPercent * 226;
+variablesRing.style.strokeDashoffset = 264 - variablesPercent * 264;
 
 if(totalRing)
-totalRing.style.strokeDashoffset = 151 - totalPercent * 151;
+
+totalRing.style.strokeDashoffset = 188 - totalPercent * 188;
 
 const depensesEl = document.getElementById("dashboardDepenses");
 if(depensesEl){
