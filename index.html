@@ -13,7 +13,11 @@
 <link rel="manifest" href="manifest.json">
 
 <link rel="apple-touch-icon" href="icon-180.png">
+
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-touch-fullscreen" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Finance+">
 
@@ -650,8 +654,8 @@ stroke:url(#gradientFixes);
 stroke-width:20;
 stroke-linecap:round;
 
-stroke-dasharray:326;
-stroke-dashoffset:326;
+stroke-dasharray:327;
+stroke-dashoffset:327;
 
 filter:drop-shadow(0 0 4px rgba(255,45,85,0.35));
 
@@ -1213,7 +1217,7 @@ let percent = budgetMax > 0 ? depenses / budgetMax : 0;
 if(percent > 1) percent = 1;
 
 const fixesPercent = budgetMax > 0 ? fixes / budgetMax : 0;
-const variablesPercent = depenses > 0 ? variables / depenses : 0;
+const variablesPercent = budgetMax > 0 ? variables / budgetMax : 0;
 const totalPercent = budgetMax > 0 ? depenses / budgetMax : 0;
 
 const fixesRing = document.querySelector(".ring-fixes");
@@ -1345,6 +1349,9 @@ updateRing();
 document.getElementById("depenseNom").value = "";
 document.getElementById("depenseMontant").value = "";
 
+// remet le curseur dans le champ nom
+document.getElementById("depenseNom").focus();
+
 fermerModal();
 
 }
@@ -1357,7 +1364,12 @@ if(!nom) return;
 const montant = parseFloat(prompt("Montant ?"));
 if(isNaN(montant)) return;
 
-let type = prompt("Type : fixe ou variable ?");
+type = type.toLowerCase().trim();
+
+if(type !== "fixe" && type !== "variable"){
+showToast("Type invalide");
+return;
+}
 if(!type) return;
 
 type = type.toLowerCase().trim();
@@ -1437,26 +1449,31 @@ depensesDetail.forEach((d,i)=>{
 
 const montant = Number(d.montant) || 0;
 
-const row = `
-<div class="depense-row"
-onclick="modifierDepense(${i})"
-ontouchstart="startSwipe(event,${i})"
-ontouchend="endSwipe(event,${i})">
+const row = document.createElement("div");
+row.className = "depense-row";
 
-<span>${d.nom}</span>
-<span>${euro(montant)}</span>
+row.onclick = () => modifierDepense(i);
+row.ontouchstart = (e) => startSwipe(e, i);
+row.ontouchend = (e) => endSwipe(e, i);
 
-</div>
-`;
+// nom de la dépense
+const spanNom = document.createElement("span");
+spanNom.textContent = d.nom;
+
+// montant
+const spanMontant = document.createElement("span");
+spanMontant.textContent = euro(montant);
+
+row.appendChild(spanNom);
+row.appendChild(spanMontant);
 
 if(d.type === "fixe"){
-fixes.innerHTML += row;
+fixes.appendChild(row);
 totalFixes += montant;
 }else{
-variables.innerHTML += row;
+variables.appendChild(row);
 totalVariables += montant;
 }
-
 });
 
 document.getElementById("totalFixes").innerText = euro(totalFixes);
@@ -1482,7 +1499,10 @@ currentRow.style.transform = "translateX(-40px)";
 currentRow.classList.add("swiping");
 }
 
-if(diff < -80){
+if(diff < -120){
+
+// petite vibration (si supportée)
+navigator.vibrate?.(10);
 
 currentRow.style.transform = "translateX(-100%)";
 
@@ -1491,7 +1511,9 @@ supprimerDepense(index);
 showToast("🗑️ Dépense supprimée");
 },200);
 
-}else if(currentRow){
+}
+
+else if(currentRow){
 
 currentRow.style.transform = "translateX(0)";
 currentRow.classList.remove("swiping");
@@ -1501,6 +1523,12 @@ currentRow.classList.remove("swiping");
 }
 
 function initChart(){
+
+// Vérifie si Chart.js est chargé
+if(typeof Chart === "undefined"){
+console.warn("Chart.js non chargé");
+return;
+}
 
 const ctx = document.getElementById("historyChart").getContext("2d");
 
@@ -1516,7 +1544,6 @@ datasets:[
 });
 
 }
-
 function majGraph(){
 
 if(!historyChart) return;
@@ -1575,7 +1602,12 @@ function afficherHistorique(){
         <td>${m.mois}</td>
         <td>${euro(m.depenses)}</td>
         <td>${euro(m.epargne)}</td>
-        <td><button onclick="supprimer(${i})" style="background:#ef4444">X</button></td>
+        <td>
+        <button onclick="supprimer(${i})"
+        style="background:#ef4444; cursor:pointer; padding:6px 10px; border-radius:8px;">
+        X
+        </button>
+        </td>
         </tr>`;
     });
 }
@@ -1749,6 +1781,7 @@ localStorage.setItem(
 "depensesDetail",
 JSON.stringify(depensesDetail)
 );
+autoSaveDebounced();
 }
 
 function autoSave(){
@@ -1884,8 +1917,15 @@ splash.remove();
 
 if ("serviceWorker" in navigator) {
 
+if ("serviceWorker" in navigator) {
+window.addEventListener("load", () => {
 navigator.serviceWorker
-.register("service-worker.js")
+.register("./service-worker.js")
+.then(reg => console.log("SW OK"))
+.catch(err => console.log("SW erreur", err));
+});
+}
+      
 .then(() => console.log("Service Worker enregistré"))
 .catch(err => console.log("Erreur SW :", err));
 
