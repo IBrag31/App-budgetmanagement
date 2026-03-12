@@ -1914,21 +1914,13 @@ splash.remove();
 }, 700);
 
  // SERVICE WORKER
-
-if ("serviceWorker" in navigator) {
-
 if ("serviceWorker" in navigator) {
 window.addEventListener("load", () => {
 navigator.serviceWorker
 .register("./service-worker.js")
-.then(reg => console.log("SW OK"))
-.catch(err => console.log("SW erreur", err));
-});
-}
-      
 .then(() => console.log("Service Worker enregistré"))
 .catch(err => console.log("Erreur SW :", err));
-
+});
 }
 
 </script>
